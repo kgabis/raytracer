@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		EEE90A2E17084824003E99ED /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A2D17084824003E99ED /* main.c */; };
 		EEE90A3017084824003E99ED /* raytracer.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = EEE90A2F17084824003E99ED /* raytracer.1 */; };
+		EEE90A3D17084952003E99ED /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A3C17084952003E99ED /* vector.c */; };
+		EEE90A3F17084963003E99ED /* color.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A3E17084963003E99ED /* color.c */; };
+		EEE90A4117084976003E99ED /* object.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4017084976003E99ED /* object.c */; };
+		EEE90A4417084995003E99ED /* raytracer.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4317084995003E99ED /* raytracer.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +32,16 @@
 		EEE90A2A17084824003E99ED /* raytracer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = raytracer; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEE90A2D17084824003E99ED /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		EEE90A2F17084824003E99ED /* raytracer.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = raytracer.1; sourceTree = "<group>"; };
+		EEE90A371708490A003E99ED /* object.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = object.h; sourceTree = "<group>"; };
+		EEE90A3817084913003E99ED /* vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
+		EEE90A391708491E003E99ED /* color.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = color.h; sourceTree = "<group>"; };
+		EEE90A3A1708492E003E99ED /* geometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = geometry.h; sourceTree = "<group>"; };
+		EEE90A3B1708493A003E99ED /* material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = material.h; sourceTree = "<group>"; };
+		EEE90A3C17084952003E99ED /* vector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vector.c; sourceTree = "<group>"; };
+		EEE90A3E17084963003E99ED /* color.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = color.c; sourceTree = "<group>"; };
+		EEE90A4017084976003E99ED /* object.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = object.c; sourceTree = "<group>"; };
+		EEE90A4217084986003E99ED /* raytracer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = raytracer.h; sourceTree = "<group>"; };
+		EEE90A4317084995003E99ED /* raytracer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = raytracer.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,10 +74,28 @@
 		EEE90A2C17084824003E99ED /* raytracer */ = {
 			isa = PBXGroup;
 			children = (
+				EEE90A36170848E8003E99ED /* basic_types */,
 				EEE90A2D17084824003E99ED /* main.c */,
 				EEE90A2F17084824003E99ED /* raytracer.1 */,
+				EEE90A4217084986003E99ED /* raytracer.h */,
+				EEE90A4317084995003E99ED /* raytracer.c */,
 			);
 			path = raytracer;
+			sourceTree = "<group>";
+		};
+		EEE90A36170848E8003E99ED /* basic_types */ = {
+			isa = PBXGroup;
+			children = (
+				EEE90A371708490A003E99ED /* object.h */,
+				EEE90A3817084913003E99ED /* vector.h */,
+				EEE90A391708491E003E99ED /* color.h */,
+				EEE90A3A1708492E003E99ED /* geometry.h */,
+				EEE90A3B1708493A003E99ED /* material.h */,
+				EEE90A3C17084952003E99ED /* vector.c */,
+				EEE90A3E17084963003E99ED /* color.c */,
+				EEE90A4017084976003E99ED /* object.c */,
+			);
+			name = basic_types;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,6 +150,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEE90A2E17084824003E99ED /* main.c in Sources */,
+				EEE90A3D17084952003E99ED /* vector.c in Sources */,
+				EEE90A3F17084963003E99ED /* color.c in Sources */,
+				EEE90A4117084976003E99ED /* object.c in Sources */,
+				EEE90A4417084995003E99ED /* raytracer.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,8 +186,16 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-lcsfml-graphics",
+					"-lcsfml-window",
+					"-lcsfml-system",
+				);
+				PRODUCT_NAME = raytracer;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -176,7 +220,15 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_LDFLAGS = (
+					"-lcsfml-graphics",
+					"-lcsfml-window",
+					"-lcsfml-system",
+				);
+				PRODUCT_NAME = raytracer;
 				SDKROOT = macosx;
 			};
 			name = Release;
