@@ -1,0 +1,221 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EEE90A2E17084824003E99ED /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A2D17084824003E99ED /* main.c */; };
+		EEE90A3017084824003E99ED /* raytracer.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = EEE90A2F17084824003E99ED /* raytracer.1 */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EEE90A2817084824003E99ED /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				EEE90A3017084824003E99ED /* raytracer.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		EEE90A2A17084824003E99ED /* raytracer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = raytracer; sourceTree = BUILT_PRODUCTS_DIR; };
+		EEE90A2D17084824003E99ED /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		EEE90A2F17084824003E99ED /* raytracer.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = raytracer.1; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EEE90A2717084824003E99ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EEE90A2117084824003E99ED = {
+			isa = PBXGroup;
+			children = (
+				EEE90A2C17084824003E99ED /* raytracer */,
+				EEE90A2B17084824003E99ED /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EEE90A2B17084824003E99ED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EEE90A2A17084824003E99ED /* raytracer */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EEE90A2C17084824003E99ED /* raytracer */ = {
+			isa = PBXGroup;
+			children = (
+				EEE90A2D17084824003E99ED /* main.c */,
+				EEE90A2F17084824003E99ED /* raytracer.1 */,
+			);
+			path = raytracer;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EEE90A2917084824003E99ED /* raytracer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EEE90A3317084824003E99ED /* Build configuration list for PBXNativeTarget "raytracer" */;
+			buildPhases = (
+				EEE90A2617084824003E99ED /* Sources */,
+				EEE90A2717084824003E99ED /* Frameworks */,
+				EEE90A2817084824003E99ED /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = raytracer;
+			productName = raytracer;
+			productReference = EEE90A2A17084824003E99ED /* raytracer */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EEE90A2217084824003E99ED /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Krzysztof Gabis";
+			};
+			buildConfigurationList = EEE90A2517084824003E99ED /* Build configuration list for PBXProject "raytracer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = EEE90A2117084824003E99ED;
+			productRefGroup = EEE90A2B17084824003E99ED /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EEE90A2917084824003E99ED /* raytracer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EEE90A2617084824003E99ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EEE90A2E17084824003E99ED /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		EEE90A3117084824003E99ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		EEE90A3217084824003E99ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		EEE90A3417084824003E99ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EEE90A3517084824003E99ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EEE90A2517084824003E99ED /* Build configuration list for PBXProject "raytracer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EEE90A3117084824003E99ED /* Debug */,
+				EEE90A3217084824003E99ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EEE90A3317084824003E99ED /* Build configuration list for PBXNativeTarget "raytracer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EEE90A3417084824003E99ED /* Debug */,
+				EEE90A3517084824003E99ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EEE90A2217084824003E99ED /* Project object */;
+}
