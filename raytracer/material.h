@@ -13,6 +13,9 @@
 
 typedef struct {
     Color color;
+    double reflectivity;
 } Material;
+
+Material material_make(Color color, double reflectivity);
 
 #endif

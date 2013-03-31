@@ -11,9 +11,10 @@
 #include "raytracer.h"
 
 #define INIT_CAPACITY 256
+#define SQUARE(x) ((x)*(x))
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
-#define MAX_DISTANCE 500.0
+#define MAX_VISIBLE_DISTANCE 1000.0
 
 typedef struct {
     Vector3 origin;
@@ -32,7 +33,9 @@ void camera_setup(Camera *c);
 Ray getRayForPixel(Camera *c, size_t x, size_t y);
 TracingResult ray_trace(Ray ray, Raytracer *rt);
 TracingResult ray_checkIntersection(Ray ray, Object *object);
-TracingResult ray_checkSphereIntersection(Ray ray, Sphere *sphere);
+TracingResult ray_checkSphereIntersection_1(Ray ray, Sphere sphere);
+TracingResult ray_checkSphereIntersection_2(Ray ray, Sphere sphere);
+TracingResult ray_checkTriangleIntersection(Ray ray, Triangle triangle);
 
 Raytracer* raytracer_init(size_t resolutionX, size_t resolutionY) {
     //    printf("Object: %lu\n", sizeof(Object));
@@ -52,16 +55,27 @@ Raytracer* raytracer_init(size_t resolutionX, size_t resolutionY) {
     rt->resolutionX = resolutionX;
     rt->resolutionY = resolutionY;
     
-    camera_init(&rt->camera, 500.0, resolutionX, resolutionY);
+    camera_init(&rt->camera, 300.0, resolutionX, resolutionY);
     
     rt->backgroundColor = COLOR_WHITE;
     return rt;
 }
 
 void raytracer_loadDemo(Raytracer *rt) {
-    raytracer_addObject(rt, object_initSphere(vec3_make(0.0, 15.0, 150.0), 15.0, COLOR_RED));
-    raytracer_addObject(rt, object_initSphere(vec3_make(10.0, -10.0, 150.0), 20.0, COLOR_GREEN));
-    raytracer_addObject(rt, object_initSphere(vec3_make(-10.0, -10.0, 150.0), 25.0, COLOR_BLUE));
+    Object sphere1 = object_initSphere(vec3_make(0, 15, 100), 15,
+                                       material_make(COLORS2_RED, 0));
+    Object sphere2 = object_initSphere(vec3_make(10, -10, 100), 20,
+                                       material_make(COLORS2_GREEN, 0));
+    Object sphere3 = object_initSphere(vec3_make(-10, -10, 100), 25,
+                                       material_make(COLORS2_BLUE, 0.0));
+    Object triangle1 = object_initTriangle(vec3_make(-40, -40, 20),
+                                           vec3_make(-0, 40, 200),
+                                           vec3_make(40, -40, 20),
+                                           material_make(COLORS2_YELLOW, 0));
+    raytracer_addObject(rt, sphere1);
+    raytracer_addObject(rt, sphere2);
+    raytracer_addObject(rt, sphere3);
+    raytracer_addObject(rt, triangle1);
 }
 
 void raytracer_addObject(Raytracer *rt, Object object) {
@@ -155,7 +169,7 @@ TracingResult ray_trace(Ray ray, Raytracer *rt) {
         }
     }
     if (closestHit.hit) {
-        closestHit.color = color_mult(closestHit.color, (MAX_DISTANCE - closestHit.distance) / MAX_DISTANCE);
+        closestHit.color = color_mult(closestHit.color, (MAX_VISIBLE_DISTANCE - closestHit.distance) / MAX_VISIBLE_DISTANCE);
     }
     return closestHit;
 }
@@ -165,29 +179,49 @@ TracingResult ray_checkIntersection(Ray ray, Object *object) {
     result.hit = 0;
     switch (object->type) {
         case GTSphere:
-            result = ray_checkSphereIntersection(ray, &object->geometry.sphere);
+            result = ray_checkSphereIntersection_2(ray, object->geometry.sphere);
             result.object = object;
             result.color = object->material.color;
             break;
         case GTTriangle:
-            result.hit = 0;
+            result = ray_checkTriangleIntersection(ray, object->geometry.triangle);
+            result.object = object;
+            result.color = object->material.color;
             break;
         default:
             break;
     }
     return result;
 }
-// http://www.cs.princeton.edu/courses/archive/fall00/cs426/lectures/raycast/sld013.htm
-TracingResult ray_checkSphereIntersection(Ray ray, Sphere *sphere) {
+
+// http://www.cs.unc.edu/~rademach/xroads-RT/RTarticle.html
+TracingResult ray_checkSphereIntersection_1(Ray ray, Sphere sphere) {
     TracingResult result;
     result.hit = 0;
-    Vector3 O = sphere->center;
+    Vector3 EO = vec3_sub(sphere.center, ray.origin);
+    double v = vec3_dot(EO, ray.direction);
+    double r = sphere.radius;
+    double disc = SQUARE(r) - (vec3_dot(EO, EO) - SQUARE(v));
+    if (disc < 0.0) {
+        return result;
+    }
+    double d = sqrt(disc);
+    result.distance = MIN(v - d, v + d);
+    result.hit = 1;
+    return result;
+}
+
+// http://www.cs.princeton.edu/courses/archive/fall00/cs426/lectures/raycast/sld013.htm
+TracingResult ray_checkSphereIntersection_2(Ray ray, Sphere sphere) {
+    TracingResult result;
+    result.hit = 0;
+    Vector3 O = sphere.center;
     Vector3 P_0 = ray.origin;
     Vector3 V = ray.direction;
     Vector3 L = vec3_sub(O, P_0);
     double t_ca = vec3_dot(L, V);
-    double d2 = vec3_dot(L, L) - (t_ca * t_ca);
-    double r2 = sphere->radius * sphere->radius;
+    double d2 = vec3_dot(L, L) - SQUARE(t_ca);
+    double r2 = SQUARE(sphere.radius);
     if (d2 > r2) {
         return result;
     }
@@ -195,6 +229,61 @@ TracingResult ray_checkSphereIntersection(Ray ray, Sphere *sphere) {
     double t1 = t_ca - t_hc;
     double t2 = t_ca + t_hc;
     result.distance = MIN(t1, t2);
+    result.hit = 1;
+    return result;
+}
+
+// http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf
+TracingResult ray_checkTriangleIntersection(Ray ray, Triangle t) {
+    TracingResult result;
+    result.hit = 0;
+    Vector3 edge1 = vec3_sub(t.b, t.a);
+    Vector3 edge2 = vec3_sub(t.c, t.a);
+    Vector3 pvec = vec3_cross(ray.direction, edge2);
+    double det = vec3_dot(edge1, pvec);
+    
+#define EPSILON 0.000001
+// Version without culling
+    if (det > -EPSILON && det < EPSILON) {
+        return result;
+    }
+    double inv_det = 1.0 / det;
+    Vector3 tvec = vec3_sub(ray.origin, t.a);
+    double u = vec3_dot(tvec, pvec) * inv_det;
+    if (u < 0.0 || u  > 1.0) {
+        return result;
+    }
+    Vector3 qvec = vec3_cross(tvec, edge1);
+    double v = vec3_dot(ray.direction, qvec) * inv_det;
+    if (v < 0.0 || u + v > 1.0) {
+        return result;
+    }
+    double d = vec3_dot(edge2, qvec) * inv_det;
+////////////////////////////////////////////////
+
+// Version with culling
+//    if (det < EPSILON) {
+//        return result;
+//    }
+//    Vector3 tvec = vec3_sub(ray.origin, t.a);
+//    double u = vec3_dot(tvec, pvec);
+//    if (u < 0.0 || u > det) {
+//        return result;
+//    }
+//    Vector3 qvec = vec3_cross(tvec, edge1);
+//    double v = vec3_dot(ray.direction, qvec);
+//    if (v < 0.0 || u + v > det) {
+//        return result;
+//    }
+//    double d = vec3_dot(edge2, qvec);
+//    double inv_det = 1.0 / det;
+//    d *= inv_det;
+//    u *= inv_det;
+//    v *= inv_det;
+////////////////////////////////////////////////
+#undef EPSILON
+
+    result.distance = d;
     result.hit = 1;
     return result;
 }

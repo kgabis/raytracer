@@ -12,13 +12,19 @@
 #define COLOR_BLACK color_make(0.0f, 0.0f, 0.0f, 1.0f)
 #define COLOR_WHITE color_make(1.0f, 1.0f, 1.0f, 1.0f)
 
-#define COLOR_RED   color_makeFromRGBA(226, 13, 81, 255)
-#define COLOR_GREEN color_makeFromRGBA(27, 229, 106, 255)
-#define COLOR_BLUE  color_makeFromRGBA(79, 135, 247, 255)
+// http://www.colourlovers.com/palette/433018/Gasoline_Rainbow
+#define COLORS1_RED    color_makeFromRGB(189, 42, 51)
+#define COLORS1_YELLOW color_makeFromRGB(214, 170, 38)
+#define COLORS1_GREEN  color_makeFromRGB(64, 129, 86)
+#define COLORS1_GREEN_2 color_makeFromRGB(147, 163, 28)
+#define COLORS1_BLUE   color_makeFromRGB(48, 55, 79)
 
-//#define COLOR_RED   color_make(1.0f, 0.0f, 0.0f, 1.0f)
-//#define COLOR_GREEN color_make(0.0f, 1.0f, 0.0f, 1.0f)
-//#define COLOR_BLUE  color_make(0.0f, 0.0f, 1.0f, 1.0f)
+// http://www.colourlovers.com/palette/412963/Retro_Rainbow
+#define COLORS2_RED    color_makeFromRGBhex(0xC00F12)
+#define COLORS2_ORANGE color_makeFromRGBhex(0xD27701)
+#define COLORS2_YELLOW  color_makeFromRGBhex(0xDDBA01)
+#define COLORS2_GREEN color_makeFromRGBhex(0x007A28)
+#define COLORS2_BLUE   color_makeFromRGBhex(0x3B9B95)
 
 typedef struct {
     double r, g, b, a;
@@ -26,6 +32,9 @@ typedef struct {
 
 Color color_make(double r, double g, double b, double a);
 Color color_makeFromRGBA(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+Color color_makeFromRGB(unsigned char r, unsigned char g, unsigned char b);
+Color color_makeFromRGBhex(unsigned int c);
+Color color_makeFromRGBAhex(unsigned int c);
 Color color_add(Color a, Color b);
 Color color_mult(Color c, double n);
 

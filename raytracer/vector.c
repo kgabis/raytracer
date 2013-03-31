@@ -9,10 +9,11 @@
 #include <stdio.h>
 #include "vector.h"
 #include <math.h>
+#include <stdint.h>
 
 #define SQ(x) ((x)*(x))
 
-double invSqrt(double y)
+double invSqrt_1(double y)
 {
     double xhalf = ( double )0.5 * y;
     long long i = *( long long* )( &y );
@@ -21,6 +22,24 @@ double invSqrt(double y)
     y = y * ( ( double )1.5 - xhalf * y * y );
     return y;
 }
+
+double invSqrt_2(double number)
+{
+    int64_t i;
+    double x2, y;
+    const double threehalfs = 1.5F;
+    
+    x2 = number * 0.5F;
+    y = number;
+    i = * ( int64_t * ) &y;
+    i = 0x5fe6ec85e7de30da - ( i >> 1 );
+    y = * ( double * ) &i;
+    y = y * ( threehalfs - ( x2 * y * y ) ); // 1st iteration
+    y = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed
+    return y;
+}
+
+
 
 Vector3 vec3_make(double x, double y, double z) {
     Vector3 v;
@@ -61,7 +80,7 @@ double vec3_length(Vector3 v) {
 }
 
 Vector3 vec3_unit(Vector3 v) {
-    double is = invSqrt(SQ(v.x) + SQ(v.y) + SQ(v.z));
+    double is = invSqrt_1(SQ(v.x) + SQ(v.y) + SQ(v.z));
     return vec3_mult(v, is);
 }
 

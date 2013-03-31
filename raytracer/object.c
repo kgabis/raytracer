@@ -9,11 +9,21 @@
 #include <stdio.h>
 #include "object.h"
 
-Object object_initSphere(Vector3 position, double radius, Color color) {
-    Object obj;
-    obj.type = GTSphere;
-    obj.geometry.sphere.center = position;
-    obj.geometry.sphere.radius = radius;
-    obj.material.color = color;
-    return obj;
+Object object_initSphere(Vector3 position, double radius, Material material) {
+    Object s;
+    s.type = GTSphere;
+    s.geometry.sphere.center = position;
+    s.geometry.sphere.radius = radius;
+    s.material = material;
+    return s;
+}
+
+Object object_initTriangle(Vector3 a, Vector3 b, Vector3 c, Material material) {
+    Object t;
+    t.type = GTTriangle;
+    t.geometry.triangle.a = a;
+    t.geometry.triangle.b = b;
+    t.geometry.triangle.c = c;
+    t.material = material;
+    return t;
 }

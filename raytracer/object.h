@@ -28,6 +28,7 @@ typedef struct {
     Material material;
 } Object;
 
-Object object_initSphere(Vector3 position, double radius, Color color);
+Object object_initSphere(Vector3 position, double radius, Material material);
+Object object_initTriangle(Vector3 a, Vector3 b, Vector3 c, Material material);
 
 #endif
