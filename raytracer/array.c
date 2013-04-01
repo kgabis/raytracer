@@ -44,18 +44,10 @@ int array_add(Array *a, void *item) {
 }
 
 void* array_get(Array *a, size_t index) {
-    void *item;
-    size_t memOffset;
     if (index >= a->count) {
         return NULL;
     }
-    memOffset = (index * a->itemSize);
-    item = a->items + memOffset;
-    return item;
-}
-
-size_t array_getCount(Array *a) {
-    return a->count;
+    return a->items + (index * a->itemSize);
 }
 
 void array_remove(Array *a, size_t index) {
@@ -67,8 +59,8 @@ void array_remove(Array *a, size_t index) {
         a->count--;
         return;
     }
-    itemToRemove = a->items + ((index * a->itemSize) / sizeof(void*));
-    itemToMove = a->items + ((a->count * a->itemSize) / sizeof(void*));
+    itemToRemove = a->items + (index * a->itemSize);
+    itemToMove = a->items + (a->count * a->itemSize);
     memmove(itemToRemove, itemToMove, a->itemSize);
     a->count--;
 }

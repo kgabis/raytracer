@@ -17,6 +17,9 @@
 		EEE90A48170887BD003E99ED /* geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A47170887BC003E99ED /* geometry.c */; };
 		EEE90A4B170990AB003E99ED /* light.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4A170990AB003E99ED /* light.c */; };
 		EEE90A4E170990FA003E99ED /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4D170990FA003E99ED /* array.c */; };
+		EEE90A511709E9D8003E99ED /* scene.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A501709E9D7003E99ED /* scene.c */; };
+		EEE90A541709EA47003E99ED /* camera.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A531709EA47003E99ED /* camera.c */; };
+		EEE90A571709F435003E99ED /* ray.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A561709F435003E99ED /* ray.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -52,6 +55,12 @@
 		EEE90A4A170990AB003E99ED /* light.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = light.c; sourceTree = "<group>"; };
 		EEE90A4C170990F6003E99ED /* array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = array.h; sourceTree = "<group>"; };
 		EEE90A4D170990FA003E99ED /* array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = array.c; sourceTree = "<group>"; };
+		EEE90A4F1709E9D0003E99ED /* scene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scene.h; sourceTree = "<group>"; };
+		EEE90A501709E9D7003E99ED /* scene.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scene.c; sourceTree = "<group>"; };
+		EEE90A521709EA41003E99ED /* camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
+		EEE90A531709EA47003E99ED /* camera.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = camera.c; sourceTree = "<group>"; };
+		EEE90A551709F40D003E99ED /* ray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ray.h; sourceTree = "<group>"; };
+		EEE90A561709F435003E99ED /* ray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ray.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +119,12 @@
 				EEE90A4A170990AB003E99ED /* light.c */,
 				EEE90A4C170990F6003E99ED /* array.h */,
 				EEE90A4D170990FA003E99ED /* array.c */,
+				EEE90A4F1709E9D0003E99ED /* scene.h */,
+				EEE90A501709E9D7003E99ED /* scene.c */,
+				EEE90A521709EA41003E99ED /* camera.h */,
+				EEE90A531709EA47003E99ED /* camera.c */,
+				EEE90A551709F40D003E99ED /* ray.h */,
+				EEE90A561709F435003E99ED /* ray.c */,
 			);
 			name = basic_types;
 			sourceTree = "<group>";
@@ -174,6 +189,9 @@
 				EEE90A48170887BD003E99ED /* geometry.c in Sources */,
 				EEE90A4B170990AB003E99ED /* light.c in Sources */,
 				EEE90A4E170990FA003E99ED /* array.c in Sources */,
+				EEE90A511709E9D8003E99ED /* scene.c in Sources */,
+				EEE90A541709EA47003E99ED /* camera.c in Sources */,
+				EEE90A571709F435003E99ED /* ray.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

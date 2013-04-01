@@ -18,10 +18,4 @@ typedef struct {
     double intensity;
 } Light;
 
-typedef struct {
-    Light *lights;
-    unsigned int count;
-    unsigned int capacity;
-} LightArray;
-
 #endif
