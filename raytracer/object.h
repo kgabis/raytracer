@@ -12,16 +12,6 @@
 #include "geometry.h"
 #include "material.h"
 
-enum GeometryType {
-    GTSphere,
-    GTTriangle
-};
-
-union Geometry {
-    Sphere sphere;
-    Triangle triangle;
-};
-
 typedef struct {
     enum GeometryType type;
     union Geometry geometry;

@@ -14,6 +14,7 @@
 		EEE90A4117084976003E99ED /* object.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4017084976003E99ED /* object.c */; };
 		EEE90A4417084995003E99ED /* raytracer.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4317084995003E99ED /* raytracer.c */; };
 		EEE90A4617085E6A003E99ED /* material.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4517085E6A003E99ED /* material.c */; };
+		EEE90A48170887BD003E99ED /* geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A47170887BC003E99ED /* geometry.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +45,7 @@
 		EEE90A4217084986003E99ED /* raytracer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = raytracer.h; sourceTree = "<group>"; };
 		EEE90A4317084995003E99ED /* raytracer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = raytracer.c; sourceTree = "<group>"; };
 		EEE90A4517085E6A003E99ED /* material.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = material.c; sourceTree = "<group>"; };
+		EEE90A47170887BC003E99ED /* geometry.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = geometry.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 				EEE90A391708491E003E99ED /* color.h */,
 				EEE90A3E17084963003E99ED /* color.c */,
 				EEE90A3A1708492E003E99ED /* geometry.h */,
+				EEE90A47170887BC003E99ED /* geometry.c */,
 				EEE90A3B1708493A003E99ED /* material.h */,
 				EEE90A4517085E6A003E99ED /* material.c */,
 			);
@@ -158,6 +161,7 @@
 				EEE90A4117084976003E99ED /* object.c in Sources */,
 				EEE90A4417084995003E99ED /* raytracer.c in Sources */,
 				EEE90A4617085E6A003E99ED /* material.c in Sources */,
+				EEE90A48170887BD003E99ED /* geometry.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +196,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -226,6 +231,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = (
 					"-lcsfml-graphics",

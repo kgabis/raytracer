@@ -55,27 +55,72 @@ Raytracer* raytracer_init(size_t resolutionX, size_t resolutionY) {
     rt->resolutionX = resolutionX;
     rt->resolutionY = resolutionY;
     
-    camera_init(&rt->camera, 300.0, resolutionX, resolutionY);
+    camera_init(&rt->camera, 250.0, resolutionX, resolutionY);
     
     rt->backgroundColor = COLOR_WHITE;
     return rt;
 }
 
 void raytracer_loadDemo(Raytracer *rt) {
-    Object sphere1 = object_initSphere(vec3_make(0, 15, 100), 15,
-                                       material_make(COLORS2_RED, 0));
-    Object sphere2 = object_initSphere(vec3_make(10, -10, 100), 20,
-                                       material_make(COLORS2_GREEN, 0));
-    Object sphere3 = object_initSphere(vec3_make(-10, -10, 100), 25,
-                                       material_make(COLORS2_BLUE, 0.0));
-    Object triangle1 = object_initTriangle(vec3_make(-40, -40, 20),
-                                           vec3_make(-0, 40, 200),
-                                           vec3_make(40, -40, 20),
-                                           material_make(COLORS2_YELLOW, 0));
+    Object sphere1 = object_initSphere(vec3_make(0, 45, 100), 25,
+                                       material_make(COLOR_RED, 0));
+    Object sphere2 = object_initSphere(vec3_make(15, 10, 100), 30,
+                                       material_make(COLOR_GREEN, 0));
+    Object sphere3 = object_initSphere(vec3_make(-15, 10, 100), 35,
+                                       material_make(COLOR_BLUE, 0.0));
+    Object triangle1 = object_initTriangle(vec3_make(-75, -40, 50),
+                                           vec3_make(-75, -40, 150),
+                                           vec3_make(75, -40, 50),
+                                           material_make(COLORS1_GREEN2, 0));
+    Object triangle2 = object_initTriangle(vec3_make(-75, -40, 150),
+                                           vec3_make(75, -40, 150),
+                                           vec3_make(75, -40, 50),
+                                           material_make(COLORS1_GREEN2, 0));
+    Object triangle3 = object_initTriangle(vec3_make(-75, 110, 50),
+                                           vec3_make(-75, -40, 150),
+                                           vec3_make(-75, -40, 50),
+                                           material_make(COLORS1_BLUE, 0));
+    Object triangle4 = object_initTriangle(vec3_make(-75, 110, 50),
+                                           vec3_make(-75, 110, 150),
+                                           vec3_make(-75, -40, 150),
+                                           material_make(COLORS1_BLUE, 0));
+    Object triangle5 = object_initTriangle(vec3_make(75, 110, 50),
+                                           vec3_make(75, -40, 150),
+                                           vec3_make(75, -40, 50),
+                                           material_make(COLORS1_BLUE, 0));
+    Object triangle6 = object_initTriangle(vec3_make(75, 110, 50),
+                                           vec3_make(75, 110, 150),
+                                           vec3_make(75, -40, 150),
+                                           material_make(COLORS1_BLUE, 0));
+    Object triangle7 = object_initTriangle(vec3_make(-75, 110, 50),
+                                           vec3_make(-75, 110, 150),
+                                           vec3_make(75, 110, 50),
+                                           material_make(COLORS1_GREEN2, 0));
+    Object triangle8 = object_initTriangle(vec3_make(-75, 110, 150),
+                                           vec3_make(75, 110, 150),
+                                           vec3_make(75, 110, 50),
+                                           material_make(COLORS1_GREEN2, 0));
+    Object triangle9 = object_initTriangle(vec3_make(-75, 110, 150),
+                                           vec3_make(75, 110, 150),
+                                           vec3_make(75, -40, 150),
+                                           material_make(COLORS1_GREEN, 0));
+    Object triangle10 = object_initTriangle(vec3_make(-75, 110, 150),
+                                           vec3_make(-75, -40, 150),
+                                           vec3_make(75, -40, 150),
+                                           material_make(COLORS1_GREEN, 0));
     raytracer_addObject(rt, sphere1);
     raytracer_addObject(rt, sphere2);
     raytracer_addObject(rt, sphere3);
     raytracer_addObject(rt, triangle1);
+    raytracer_addObject(rt, triangle2);
+    raytracer_addObject(rt, triangle3);
+    raytracer_addObject(rt, triangle4);
+    raytracer_addObject(rt, triangle5);
+    raytracer_addObject(rt, triangle6);
+    raytracer_addObject(rt, triangle7);
+    raytracer_addObject(rt, triangle8);
+    raytracer_addObject(rt, triangle9);
+    raytracer_addObject(rt, triangle10);
 }
 
 void raytracer_addObject(Raytracer *rt, Object object) {
@@ -118,8 +163,8 @@ void raytracer_dealloc(Raytracer *rt) {
 }
 
 void camera_init(Camera *cam, double focalLength, double width, double height) {
-    cam->position = VECTOR3_ZERO;
-    cam->direction = vec3_make(0.0, 0.0, 1.0);
+    cam->position = vec3_make(0, 10, 0);
+    cam->direction = vec3_make(0, 0, 1);
     cam->focalLength = focalLength;
     cam->width = width;
     cam->height = height;
@@ -218,9 +263,10 @@ TracingResult ray_checkSphereIntersection_2(Ray ray, Sphere sphere) {
     Vector3 O = sphere.center;
     Vector3 P_0 = ray.origin;
     Vector3 V = ray.direction;
-    Vector3 L = vec3_sub(O, P_0);
-    double t_ca = vec3_dot(L, V);
-    double d2 = vec3_dot(L, L) - SQUARE(t_ca);
+    Vector3 L;
+    VEC3_SUB(L, O, P_0);
+    double t_ca = VEC3_DOT(L, V);
+    double d2 = VEC3_DOT(L, L) - SQUARE(t_ca);
     double r2 = SQUARE(sphere.radius);
     if (d2 > r2) {
         return result;
@@ -237,53 +283,52 @@ TracingResult ray_checkSphereIntersection_2(Ray ray, Sphere sphere) {
 TracingResult ray_checkTriangleIntersection(Ray ray, Triangle t) {
     TracingResult result;
     result.hit = 0;
-    Vector3 edge1 = vec3_sub(t.b, t.a);
-    Vector3 edge2 = vec3_sub(t.c, t.a);
-    Vector3 pvec = vec3_cross(ray.direction, edge2);
-    double det = vec3_dot(edge1, pvec);
-    
+    Vector3 pvec, tvec, qvec;
+    VEC3_CROSS(pvec, ray.direction, t.edges[1]);
+    double det = VEC3_DOT(t.edges[0], pvec);
 #define EPSILON 0.000001
-// Version without culling
+    // Version without culling
     if (det > -EPSILON && det < EPSILON) {
         return result;
     }
     double inv_det = 1.0 / det;
-    Vector3 tvec = vec3_sub(ray.origin, t.a);
-    double u = vec3_dot(tvec, pvec) * inv_det;
+    VEC3_SUB(tvec, ray.origin, t.a);
+    double u = VEC3_DOT(tvec, pvec) * inv_det;
     if (u < 0.0 || u  > 1.0) {
         return result;
     }
-    Vector3 qvec = vec3_cross(tvec, edge1);
-    double v = vec3_dot(ray.direction, qvec) * inv_det;
+    VEC3_CROSS(qvec, tvec, t.edges[0]);
+    double v = VEC3_DOT(ray.direction, qvec) * inv_det;
     if (v < 0.0 || u + v > 1.0) {
         return result;
     }
-    double d = vec3_dot(edge2, qvec) * inv_det;
+    double d = VEC3_DOT(t.edges[1], qvec) * inv_det;
 ////////////////////////////////////////////////
-
 // Version with culling
 //    if (det < EPSILON) {
 //        return result;
 //    }
-//    Vector3 tvec = vec3_sub(ray.origin, t.a);
-//    double u = vec3_dot(tvec, pvec);
+//    VEC3_SUB(tvec, ray.origin, t.a);
+//    double u = VEC3_DOT(tvec, pvec);
 //    if (u < 0.0 || u > det) {
 //        return result;
 //    }
-//    Vector3 qvec = vec3_cross(tvec, edge1);
-//    double v = vec3_dot(ray.direction, qvec);
+//    VEC3_CROSS(qvec, tvec, edge1);
+//    double v = VEC3_DOT(ray.direction, qvec);
 //    if (v < 0.0 || u + v > det) {
 //        return result;
 //    }
-//    double d = vec3_dot(edge2, qvec);
+//    double d = VEC3_DOT(edge2, qvec);
 //    double inv_det = 1.0 / det;
 //    d *= inv_det;
 //    u *= inv_det;
 //    v *= inv_det;
 ////////////////////////////////////////////////
 #undef EPSILON
-
+    
     result.distance = d;
     result.hit = 1;
     return result;
 }
+
+

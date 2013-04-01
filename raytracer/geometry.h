@@ -13,19 +13,27 @@
 #include "color.h"
 
 typedef struct {
-    Vector3 position;
-    Color color;
-} Vertex3;
-
-typedef struct {
     Vector3 center;
     double radius;
 } Sphere;
 
 typedef struct {
     Vector3 a, b, c;
+    Vector3 edges[2];
+    Vector3 normal;
 } Triangle;
 
+enum GeometryType {
+    GTSphere,
+    GTTriangle
+};
 
+union Geometry {
+    Sphere sphere;
+    Triangle triangle;
+};
+
+Sphere sphere_make(Vector3 center, double radius);
+Triangle triangle_make(Vector3 a, Vector3 b, Vector3 c);
 
 #endif

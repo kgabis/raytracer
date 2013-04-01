@@ -39,8 +39,6 @@ double invSqrt_2(double number)
     return y;
 }
 
-
-
 Vector3 vec3_make(double x, double y, double z) {
     Vector3 v;
     v.x = x, v.y = y, v.z = z;
