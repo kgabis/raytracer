@@ -38,7 +38,7 @@ typedef struct {
 typedef struct {
     Camera camera;
     Color backgroundColor;
-    ObjectArray objects;
+    ObjectArray objects; // Type-specific, no casting overhead
     size_t resolutionX;
     size_t resolutionY;
 } Raytracer;

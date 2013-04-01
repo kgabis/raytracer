@@ -138,8 +138,8 @@ void raytracer_render(Raytracer *rt, DrawFunction draw, void *data) {
 }
 
 void raytracer_dealloc(Raytracer *rt) {
-    free(rt);
     free(rt->objects.objects);
+    free(rt);
 }
 
 void camera_init(Camera *cam, double focalLength, double width, double height) {

@@ -41,7 +41,7 @@ int array_add(Array *a, void *item) {
         a->items = reallocPtr;
         a->capacity = newCapacity;
     }
-    memOffset = (a->count * a->itemSize) / sizeof(void*);
+    memOffset = (a->count * a->itemSize);
     memmove(a->items + memOffset, item, a->itemSize);
     a->count++;
     return 1;
@@ -53,7 +53,7 @@ void* array_get(Array *a, size_t index) {
     if (index >= a->count) {
         return NULL;
     }
-    memOffset = (index * a->itemSize) / sizeof(void*);
+    memOffset = (index * a->itemSize);
     item = a->items + memOffset;
     return item;
 }
