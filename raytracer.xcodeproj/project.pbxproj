@@ -15,6 +15,8 @@
 		EEE90A4417084995003E99ED /* raytracer.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4317084995003E99ED /* raytracer.c */; };
 		EEE90A4617085E6A003E99ED /* material.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4517085E6A003E99ED /* material.c */; };
 		EEE90A48170887BD003E99ED /* geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A47170887BC003E99ED /* geometry.c */; };
+		EEE90A4B170990AB003E99ED /* light.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4A170990AB003E99ED /* light.c */; };
+		EEE90A4E170990FA003E99ED /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4D170990FA003E99ED /* array.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,6 +48,10 @@
 		EEE90A4317084995003E99ED /* raytracer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = raytracer.c; sourceTree = "<group>"; };
 		EEE90A4517085E6A003E99ED /* material.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = material.c; sourceTree = "<group>"; };
 		EEE90A47170887BC003E99ED /* geometry.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = geometry.c; sourceTree = "<group>"; };
+		EEE90A49170990A5003E99ED /* light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = light.h; sourceTree = "<group>"; };
+		EEE90A4A170990AB003E99ED /* light.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = light.c; sourceTree = "<group>"; };
+		EEE90A4C170990F6003E99ED /* array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = array.h; sourceTree = "<group>"; };
+		EEE90A4D170990FA003E99ED /* array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = array.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +106,10 @@
 				EEE90A47170887BC003E99ED /* geometry.c */,
 				EEE90A3B1708493A003E99ED /* material.h */,
 				EEE90A4517085E6A003E99ED /* material.c */,
+				EEE90A49170990A5003E99ED /* light.h */,
+				EEE90A4A170990AB003E99ED /* light.c */,
+				EEE90A4C170990F6003E99ED /* array.h */,
+				EEE90A4D170990FA003E99ED /* array.c */,
 			);
 			name = basic_types;
 			sourceTree = "<group>";
@@ -162,6 +172,8 @@
 				EEE90A4417084995003E99ED /* raytracer.c in Sources */,
 				EEE90A4617085E6A003E99ED /* material.c in Sources */,
 				EEE90A48170887BD003E99ED /* geometry.c in Sources */,
+				EEE90A4B170990AB003E99ED /* light.c in Sources */,
+				EEE90A4E170990FA003E99ED /* array.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

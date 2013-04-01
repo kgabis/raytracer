@@ -62,65 +62,39 @@ Raytracer* raytracer_init(size_t resolutionX, size_t resolutionY) {
 }
 
 void raytracer_loadDemo(Raytracer *rt) {
-    Object sphere1 = object_initSphere(vec3_make(0, 45, 100), 25,
+    Object spheres[3];
+    Object triangles[10];
+    Vector3 vs[8];
+    spheres[0] = object_initSphere(vec3_make(0, 45, 100), 25,
                                        material_make(COLOR_RED, 0));
-    Object sphere2 = object_initSphere(vec3_make(15, 10, 100), 30,
+    spheres[1] = object_initSphere(vec3_make(15, 10, 100), 30,
                                        material_make(COLOR_GREEN, 0));
-    Object sphere3 = object_initSphere(vec3_make(-15, 10, 100), 35,
+    spheres[2] = object_initSphere(vec3_make(-15, 10, 100), 35,
                                        material_make(COLOR_BLUE, 0.0));
-    Object triangle1 = object_initTriangle(vec3_make(-75, -40, 50),
-                                           vec3_make(-75, -40, 150),
-                                           vec3_make(75, -40, 50),
-                                           material_make(COLORS1_GREEN2, 0));
-    Object triangle2 = object_initTriangle(vec3_make(-75, -40, 150),
-                                           vec3_make(75, -40, 150),
-                                           vec3_make(75, -40, 50),
-                                           material_make(COLORS1_GREEN2, 0));
-    Object triangle3 = object_initTriangle(vec3_make(-75, 110, 50),
-                                           vec3_make(-75, -40, 150),
-                                           vec3_make(-75, -40, 50),
-                                           material_make(COLORS1_BLUE, 0));
-    Object triangle4 = object_initTriangle(vec3_make(-75, 110, 50),
-                                           vec3_make(-75, 110, 150),
-                                           vec3_make(-75, -40, 150),
-                                           material_make(COLORS1_BLUE, 0));
-    Object triangle5 = object_initTriangle(vec3_make(75, 110, 50),
-                                           vec3_make(75, -40, 150),
-                                           vec3_make(75, -40, 50),
-                                           material_make(COLORS1_BLUE, 0));
-    Object triangle6 = object_initTriangle(vec3_make(75, 110, 50),
-                                           vec3_make(75, 110, 150),
-                                           vec3_make(75, -40, 150),
-                                           material_make(COLORS1_BLUE, 0));
-    Object triangle7 = object_initTriangle(vec3_make(-75, 110, 50),
-                                           vec3_make(-75, 110, 150),
-                                           vec3_make(75, 110, 50),
-                                           material_make(COLORS1_GREEN2, 0));
-    Object triangle8 = object_initTriangle(vec3_make(-75, 110, 150),
-                                           vec3_make(75, 110, 150),
-                                           vec3_make(75, 110, 50),
-                                           material_make(COLORS1_GREEN2, 0));
-    Object triangle9 = object_initTriangle(vec3_make(-75, 110, 150),
-                                           vec3_make(75, 110, 150),
-                                           vec3_make(75, -40, 150),
-                                           material_make(COLORS1_GREEN, 0));
-    Object triangle10 = object_initTriangle(vec3_make(-75, 110, 150),
-                                           vec3_make(-75, -40, 150),
-                                           vec3_make(75, -40, 150),
-                                           material_make(COLORS1_GREEN, 0));
-    raytracer_addObject(rt, sphere1);
-    raytracer_addObject(rt, sphere2);
-    raytracer_addObject(rt, sphere3);
-    raytracer_addObject(rt, triangle1);
-    raytracer_addObject(rt, triangle2);
-    raytracer_addObject(rt, triangle3);
-    raytracer_addObject(rt, triangle4);
-    raytracer_addObject(rt, triangle5);
-    raytracer_addObject(rt, triangle6);
-    raytracer_addObject(rt, triangle7);
-    raytracer_addObject(rt, triangle8);
-    raytracer_addObject(rt, triangle9);
-    raytracer_addObject(rt, triangle10);
+    Material sideWallMaterial1 = material_make(COLORS1_BLUE, 0.0);
+    Material sideWallMaterial2 = material_make(COLORS1_GREEN, 0.0);
+    Material ceilingMaterial = material_make(COLORS2_RED, 0.0);
+    Material floorMaterial = material_make(COLORS2_RED, 0.0);
+    vs[0] = vec3_make(-75, -40, 50);
+    vs[1] = vec3_make(-75, -40, 150);
+    vs[2] = vec3_make(75, -40, 50);
+    vs[3] = vec3_make(75, -40, 150);
+    vs[4] = vec3_make(-75, 110, 50);
+    vs[5] = vec3_make(-75, 110, 150);
+    vs[6] = vec3_make(75, 110, 50);
+    vs[7] = vec3_make(75, 110, 150);
+    triangles[0] = object_initTriangle(vs[0], vs[1], vs[2], floorMaterial);
+    triangles[1] = object_initTriangle(vs[1], vs[3], vs[2], floorMaterial);
+    triangles[2] = object_initTriangle(vs[4], vs[1], vs[0], sideWallMaterial1);
+    triangles[3] = object_initTriangle(vs[4], vs[5], vs[1], sideWallMaterial1);
+    triangles[4] = object_initTriangle(vs[6], vs[3], vs[2], sideWallMaterial1);
+    triangles[5] = object_initTriangle(vs[6], vs[7], vs[3], sideWallMaterial1);
+    triangles[6] = object_initTriangle(vs[4], vs[5], vs[6], ceilingMaterial);
+    triangles[7] = object_initTriangle(vs[5], vs[7], vs[6], ceilingMaterial);
+    triangles[8] = object_initTriangle(vs[5], vs[7], vs[3], sideWallMaterial2);
+    triangles[9] = object_initTriangle(vs[5], vs[1], vs[3], sideWallMaterial2);
+    raytracer_addObjectRange(rt, spheres, 3);
+    raytracer_addObjectRange(rt, triangles, 10);
 }
 
 void raytracer_addObject(Raytracer *rt, Object object) {
@@ -137,6 +111,12 @@ void raytracer_addObject(Raytracer *rt, Object object) {
     }
     rt->objects.objects[rt->objects.len] = object;
     rt->objects.len++;
+}
+
+void raytracer_addObjectRange(Raytracer *rt, Object *objects, size_t len) {
+    for (size_t i = 0; i < len; i++) {
+        raytracer_addObject(rt, objects[i]);
+    }
 }
 
 void raytracer_render(Raytracer *rt, DrawFunction draw, void *data) {

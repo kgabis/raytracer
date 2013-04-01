@@ -49,7 +49,6 @@
             (out).y = (a).y * (b).y;     \
             (out).z = (a).z * (b).z;
 
-
 typedef struct {
     double x, y, z;
 } Vector3;
