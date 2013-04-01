@@ -10,10 +10,18 @@
 #define raytracer_light_h
 
 #include "vector.h"
+#include "color.h"
 
 typedef struct {
     Vector3 position;
+    Color color;
     double intensity;
 } Light;
+
+typedef struct {
+    Light *lights;
+    unsigned int count;
+    unsigned int capacity;
+} LightArray;
 
 #endif

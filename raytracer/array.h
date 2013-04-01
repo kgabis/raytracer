@@ -16,7 +16,7 @@ typedef struct {
     size_t capacity;
 } Array;
 
-Array *array_init(size_t itemSize, size_t initialCapacity);
+Array *array_init(Array *array, size_t itemSize, size_t initialCapacity);
 int array_add(Array *array, void *item); // 1 on success
 void* array_get(Array *array, size_t index);
 size_t array_getCount(Array *array);

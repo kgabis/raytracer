@@ -29,8 +29,6 @@
 #define COLORS2_GREEN color_makeFromRGBhex(0x007A28)
 #define COLORS2_BLUE   color_makeFromRGBhex(0x3B9B95)
 
-
-
 typedef struct {
     double r, g, b, a;
 } Color;

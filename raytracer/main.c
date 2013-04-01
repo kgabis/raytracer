@@ -34,11 +34,12 @@ int main()
     sfImage *screen = sfImage_createFromColor(WINDOW_WIDTH, WINDOW_HEIGHT, sfWhite);
     sfSprite *sprite = sfSprite_create();
     sfTexture *texture = sfTexture_createFromImage(screen, &bounds);
-    Raytracer *rt = raytracer_init(WINDOW_WIDTH, WINDOW_HEIGHT);
+    Raytracer rt;
+    raytracer_init(&rt, WINDOW_WIDTH, WINDOW_HEIGHT);
     sfClock *clock = sfClock_create();
     sfTime time;
     sfSprite_setTexture(sprite, texture, sfFalse);
-    raytracer_loadDemo(rt);
+    raytracer_loadDemo(&rt);
     window = sfRenderWindow_create(mode, "raytracer", sfClose, NULL);
     if (!window) {
         return 1;
@@ -51,7 +52,7 @@ int main()
             if (event.type == sfEvtClosed)
                 sfRenderWindow_close(window);
         }
-        raytracer_render(rt, draw, (void*)screen);
+        raytracer_render(&rt, draw, (void*)screen);
         sfTexture_updateFromImage(texture, screen, 0, 0);
         sfRenderWindow_clear(window, sfWhite);
         sfTexture_bind(texture);
@@ -66,7 +67,7 @@ int main()
     sfTexture_destroy(texture);
     sfSprite_destroy(sprite);
     sfRenderWindow_destroy(window);
-    raytracer_dealloc(rt);
+    raytracer_dealloc(&rt);
     return 0;
 }
 

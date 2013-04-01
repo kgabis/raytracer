@@ -37,28 +37,12 @@ TracingResult ray_checkSphereIntersection_1(Ray ray, Sphere sphere);
 TracingResult ray_checkSphereIntersection_2(Ray ray, Sphere sphere);
 TracingResult ray_checkTriangleIntersection(Ray ray, Triangle triangle);
 
-Raytracer* raytracer_init(size_t resolutionX, size_t resolutionY) {
-    //    printf("Object: %lu\n", sizeof(Object));
-    //    printf("Sphere: %lu\n", sizeof(Sphere));
-    Raytracer *rt = malloc(sizeof(Raytracer));
-    if (rt == NULL) {
-        return NULL;
-    }
-    rt->objects.objects = malloc(sizeof(Object) * INIT_CAPACITY);
-    if (rt->objects.objects == NULL) {
-        free(rt);
-        return NULL;
-    }
-    rt->objects.capacity = INIT_CAPACITY;
-    rt->objects.len = 0;
-    
+void raytracer_init(Raytracer *rt, size_t resolutionX, size_t resolutionY) {
+    array_init(&rt->objects, sizeof(Object), INIT_CAPACITY);
     rt->resolutionX = resolutionX;
     rt->resolutionY = resolutionY;
-    
     camera_init(&rt->camera, 250.0, resolutionX, resolutionY);
-    
     rt->backgroundColor = COLOR_WHITE;
-    return rt;
 }
 
 void raytracer_loadDemo(Raytracer *rt) {
@@ -97,25 +81,13 @@ void raytracer_loadDemo(Raytracer *rt) {
     raytracer_addObjectRange(rt, triangles, 10);
 }
 
-void raytracer_addObject(Raytracer *rt, Object object) {
-    void *reallocPtr = NULL;
-    size_t newCapacity;
-    if (rt->objects.len >= rt->objects.capacity) {
-        newCapacity = rt->objects.capacity * 2;
-        reallocPtr = realloc(rt->objects.objects, sizeof(Object) * newCapacity);
-        if (reallocPtr == NULL) {
-            return;
-        }
-        rt->objects.objects = reallocPtr;
-        rt->objects.capacity = newCapacity;
-    }
-    rt->objects.objects[rt->objects.len] = object;
-    rt->objects.len++;
+void raytracer_addObject(Raytracer *rt, Object *object) {
+    array_add(&rt->objects, object);
 }
 
 void raytracer_addObjectRange(Raytracer *rt, Object *objects, size_t len) {
     for (size_t i = 0; i < len; i++) {
-        raytracer_addObject(rt, objects[i]);
+        raytracer_addObject(rt, &objects[i]);
     }
 }
 
@@ -138,8 +110,8 @@ void raytracer_render(Raytracer *rt, DrawFunction draw, void *data) {
 }
 
 void raytracer_dealloc(Raytracer *rt) {
-    free(rt->objects.objects);
-    free(rt);
+    array_dealloc(&rt->objects);
+//    free(rt->objects.objects);
 }
 
 void camera_init(Camera *cam, double focalLength, double width, double height) {
@@ -187,8 +159,8 @@ TracingResult ray_trace(Ray ray, Raytracer *rt) {
     TracingResult currentHit;
     closestHit.hit = 0;
     closestHit.distance = 1.0/0.0; // infinity
-    for (size_t i = 0; i < rt->objects.len; i++) {
-        currentHit = ray_checkIntersection(ray, &rt->objects.objects[i]);
+    for (size_t i = 0; i < rt->objects.count; i++) {
+        currentHit = ray_checkIntersection(ray, array_get(&rt->objects, i));
         if (currentHit.hit && currentHit.distance < closestHit.distance) {
             closestHit = currentHit;
         }

@@ -10,11 +10,7 @@
 #include <string.h>
 #include "array.h"
 
-Array *array_init(size_t itemSize, size_t initialCapacity) {
-    Array *a = malloc(sizeof(Array));
-    if (a == NULL) {
-        return NULL;
-    }
+Array *array_init(Array *a, size_t itemSize, size_t initialCapacity) {
     if (initialCapacity == 0) {
         initialCapacity = 1; // Idiot-proof
     }
@@ -78,6 +74,5 @@ void array_remove(Array *a, size_t index) {
 }
 
 void array_dealloc(Array *a) {
-    free(a->items);
     free(a);
 }

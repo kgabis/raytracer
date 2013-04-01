@@ -11,7 +11,7 @@
 
 #define VECTOR3_ZERO vec3_make(0.0, 0.0, 0.0)
 
-//Use macros only for critical secions of code
+// Use macros only for critical secions of code
 #define VEC3_ADD(out, a, b)    \
             (out).x = (a).x + (b).x; \
             (out).y = (a).y + (b).y; \

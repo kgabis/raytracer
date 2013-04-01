@@ -11,6 +11,7 @@
 
 #include "geometry.h"
 #include "object.h"
+#include "array.h"
 
 typedef void (*DrawFunction)(void *data, Color color, size_t x, size_t y);
 
@@ -30,22 +31,17 @@ typedef struct {
 } Camera;
 
 typedef struct {
-    Object *objects;
-    size_t capacity;
-    size_t len;
-} ObjectArray;
-
-typedef struct {
     Camera camera;
     Color backgroundColor;
-    ObjectArray objects; // Type-specific, no casting overhead
+    Array objects; // Type-specific, no casting overhead
+    Array lights;
     size_t resolutionX;
     size_t resolutionY;
 } Raytracer;
 
-Raytracer* raytracer_init(size_t resolutionX, size_t resolutionY);
+void raytracer_init(Raytracer *rt, size_t resolutionX, size_t resolutionY);
 void raytracer_loadDemo(Raytracer *rt);
-void raytracer_addObject(Raytracer *rt, Object object);
+void raytracer_addObject(Raytracer *rt, Object *object);
 void raytracer_addObjectRange(Raytracer *rt, Object *objects, size_t len);
 void raytracer_render(Raytracer *rt, DrawFunction draw, void *data);
 void raytracer_dealloc(Raytracer *rt);
