@@ -43,10 +43,14 @@ int array_add(Array *a, void *item) {
     return 1;
 }
 
-void* array_get(Array *a, size_t index) {
+void* array_getSafe(const Array *a, size_t index) {
     if (index >= a->count) {
         return NULL;
     }
+    return a->items + (index * a->itemSize);
+}
+
+void* array_get(const Array *a, size_t index) {
     return a->items + (index * a->itemSize);
 }
 

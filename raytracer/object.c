@@ -24,3 +24,15 @@ Object object_initTriangle(Vector3 a, Vector3 b, Vector3 c, Material material) {
     t.material = material;
     return t;
 }
+
+Vector3 object_getNormalAtPoint(const Object *object, Vector3 point) {
+    switch (object->type) {
+        case GTTriangle:
+            return object->geometry.triangle.normal;
+        case GTSphere:
+            return vec3_unit(vec3_sub(object->geometry.sphere.center, point));
+        default:
+            return VEC3_ZERO;
+            break;
+    }
+}

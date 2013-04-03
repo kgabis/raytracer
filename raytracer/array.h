@@ -9,6 +9,8 @@
 #ifndef raytracer_array_h
 #define raytracer_array_h
 
+#define ARRAY_GET(array, index) ((a)->items + ((index) * (a)->itemSize))
+
 typedef struct {
     void *items;
     size_t itemSize;
@@ -18,7 +20,8 @@ typedef struct {
 
 Array *array_init(Array *array, size_t itemSize, size_t initialCapacity);
 int array_add(Array *array, void *item); // 1 on success
-void* array_get(Array *array, size_t index);
+void* array_getSafe(const Array *a, size_t index);
+void* array_get(const Array *array, size_t index);
 void array_remove(Array *array, size_t index);
 void array_dealloc(Array *array);
 

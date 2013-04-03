@@ -14,25 +14,15 @@
 #include "object.h"
 #include "scene.h"
 
-
 typedef struct {
     Vector3 origin;
     Vector3 direction;
 } Ray;
 
-typedef struct {
-    int hit;
-    Color color;
-    Object *object;
-    double distance;
-} TracingResult;
+Ray ray_make(Vector3 origin, Vector3 direction);
+Ray ray_makeForPixel(const Camera *c, size_t x, size_t y);
+Color ray_trace(Ray ray, const Scene *scene);
 
-Ray ray_makeForPixel(Camera *c, size_t x, size_t y);
-TracingResult ray_trace(Ray ray, Scene *scene);
-TracingResult ray_checkIntersection(Ray ray, Object *object);
-TracingResult ray_checkSphereIntersection_1(Ray ray, Sphere sphere);
-TracingResult ray_checkSphereIntersection_2(Ray ray, Sphere sphere);
-TracingResult ray_checkTriangleIntersection(Ray ray, Triangle triangle);
 
 
 #endif

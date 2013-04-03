@@ -39,6 +39,7 @@ Color color_makeFromRGB(unsigned char r, unsigned char g, unsigned char b);
 Color color_makeFromRGBhex(unsigned int c);
 Color color_makeFromRGBAhex(unsigned int c);
 Color color_add(Color a, Color b);
+Color color_addWeighted(Color a, double weightA, Color b, double weightB);
 Color color_mult(Color c, double n);
 
 #endif

@@ -10,7 +10,7 @@
 #include "camera.h"
 
 void camera_init(Camera *cam, double focalLength, double width, double height) {
-    cam->position = vec3_make(0, 15, 0);
+    cam->position = vec3_make(0, 26, 0);
     cam->direction = vec3_make(0, 0, 1);
     cam->focalLength = focalLength;
     cam->width = width;

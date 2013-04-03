@@ -21,18 +21,12 @@ void raytracer_loadDemo(Raytracer *rt) {
 }
 
 void raytracer_render(Raytracer *rt, DrawFunction draw, void *data) {
+    light_moveLeftRight(&rt->scene.ambientLight);
     camera_setup(&rt->scene.camera);
-    //    rt->objects.objects[2].geometry.sphere.center.z += 1.0;
     for (size_t x = 0; x < rt->resolutionX; x++) {
         for (size_t y = 0; y < rt->resolutionY; y++) {
             Ray ray = ray_makeForPixel(&rt->scene.camera, x, y);
-            TracingResult result = ray_trace(ray, &rt->scene);
-            Color color;
-            if (!result.hit) {
-                color = rt->scene.backgroundColor;
-            } else {
-                color = result.color;
-            }
+            Color color = ray_trace(ray, &rt->scene);
             draw(data, color, x, y);
         }
     }
@@ -41,6 +35,3 @@ void raytracer_render(Raytracer *rt, DrawFunction draw, void *data) {
 void raytracer_dealloc(Raytracer *rt) {
     scene_dealloc(&rt->scene);
 }
-
-
-

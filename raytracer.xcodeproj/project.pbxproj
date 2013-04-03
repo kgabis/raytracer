@@ -278,6 +278,7 @@
 		EEE90A3417084824003E99ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -285,6 +286,7 @@
 		EEE90A3517084824003E99ED /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -308,6 +310,7 @@
 				EEE90A3517084824003E99ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

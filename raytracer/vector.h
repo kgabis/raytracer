@@ -9,7 +9,7 @@
 #ifndef raytracer_vector_h
 #define raytracer_vector_h
 
-#define VECTOR3_ZERO vec3_make(0.0, 0.0, 0.0)
+#define VEC3_ZERO vec3_make(0.0, 0.0, 0.0)
 
 // Use macros only for critical secions of code
 #define VEC3_ADD(out, a, b)    \

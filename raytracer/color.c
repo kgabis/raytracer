@@ -29,6 +29,16 @@ Color color_add(Color a, Color b) {
                       (a.b + b.b) / 2.0, (a.a + b.a) / 2.0);
 }
 
+Color color_addWeighted(Color a, double weightA, Color b, double weightB) {
+    double sum = weightA + weightB;
+    Color c;
+    c.r = ((a.r * weightA) + (b.r * weightB))/ sum;
+    c.g = ((a.g * weightA) + (b.g * weightB))/ sum;
+    c.b = ((a.b * weightA) + (b.b * weightB))/ sum;
+    c.a = ((a.a * weightA) + (b.a * weightB))/ sum;
+    return c;
+}
+
 Color color_makeFromRGBhex(unsigned int c) {
     return color_makeFromRGB(c >> 16, c >> 8, c);
 }
@@ -38,9 +48,9 @@ Color color_makeFromRGBAhex(unsigned int c) {
 }
 
 Color color_mult(Color c, double n) {
-    double r = MIN(c.r * n, 1.0);
-    double g = MIN(c.g * n, 1.0);
-    double b = MIN(c.b * n, 1.0);
-    double a = MIN(c.a * n, 1.0);
-    return color_make(r, g, b, a);
+    c.r = MIN(c.r * n, 1.0);
+    c.g = MIN(c.g * n, 1.0);
+    c.b = MIN(c.b * n, 1.0);
+//    c.a = MIN(c.a * n, 1.0);
+    return c;
 }

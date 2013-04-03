@@ -10,8 +10,6 @@
 #define raytracer_raytracer_h
 
 #include "geometry.h"
-#include "object.h"
-#include "array.h"
 #include "scene.h"
 
 typedef void (*DrawFunction)(void *data, Color color, size_t x, size_t y);

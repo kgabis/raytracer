@@ -22,6 +22,7 @@ void draw(void *data, Color color, size_t x, size_t y) {
     sfcolor.g = (sfUint8)(color.g * 255.0);
     sfcolor.b = (sfUint8)(color.b * 255.0);
     sfcolor.a = (sfUint8)(color.a * 255.0);
+//    sfcolor = sfColor_fromRGB(0, 0, 0);
     sfImage_setPixel(screen, (int)x, (int)y, sfcolor);
 }
 

@@ -18,6 +18,8 @@
 typedef struct {
     Array objects;
     Array lights;
+    Light ambientLight;
+    double ambientCoefficient;
     Camera camera;
     Color backgroundColor;
 } Scene;

@@ -20,5 +20,5 @@ typedef struct {
 
 Object object_initSphere(Vector3 position, double radius, Material material);
 Object object_initTriangle(Vector3 a, Vector3 b, Vector3 c, Material material);
-
+Vector3 object_getNormalAtPoint(const Object *object, Vector3 point);
 #endif
