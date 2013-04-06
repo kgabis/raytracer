@@ -13,6 +13,7 @@
 #include "color.h"
 #include "object.h"
 #include "scene.h"
+#include "camera.h"
 
 typedef struct {
     Vector3 origin;
@@ -22,7 +23,5 @@ typedef struct {
 Ray ray_make(Vector3 origin, Vector3 direction);
 Ray ray_makeForPixel(const Camera *c, size_t x, size_t y);
 Color ray_trace(Ray ray, const Scene *scene);
-
-
 
 #endif

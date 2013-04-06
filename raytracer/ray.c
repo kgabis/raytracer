@@ -12,7 +12,7 @@
 
 #include "ray.h"
 
-#define MAX_RECURSION_DEPTH 1
+#define MAX_RECURSION_DEPTH 4
 #define SQUARE(x) ((x)*(x))
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
@@ -25,8 +25,10 @@ typedef struct {
     double distance;
 } TracingResult;
 
+static Ray ray_reflect(Ray ray, const Object *object, Vector3 point);
+static Color ray_traceRecursive(Ray ray, const Scene *scene, size_t depth);
 static TracingResult ray_traceOnce(Ray ray, const Scene *scene);
-static TracingResult ray_traceForShadow(Ray ray, const Scene *scene, const Object *objectToExclude, double lightDistance);
+//static TracingResult ray_traceForShadow(Ray ray, const Scene *scene, const Object *objectToExclude, double lightDistance);
 static TracingResult ray_traceReflection(Ray ray, Scene *scene, const Object *toExclude, size_t depth);
 static TracingResult ray_checkIntersection(Ray ray, const Object *object);
 static TracingResult ray_checkSphereIntersection_1(Ray ray, const Sphere *sphere);
@@ -55,12 +57,25 @@ Ray ray_makeForPixel(const Camera *c, size_t x, size_t y) {
 }
 
 Color ray_trace(Ray ray, const Scene *scene) {
+    return ray_traceRecursive(ray, scene, MAX_RECURSION_DEPTH);
+}
+
+static Color ray_traceRecursive(Ray ray, const Scene *scene, size_t depth) {
     TracingResult closestHit = ray_traceOnce(ray, scene);
+    if (!closestHit.hit) {
+        return closestHit.color;
+    }
     Vector3 collisionPoint = vec3_add(vec3_mult(ray.direction, closestHit.distance), ray.origin);
     double shade = tracingresult_shadeAtPoint(&closestHit, scene, collisionPoint);
     double diffuseCoefficient = 1.0 - scene->ambientCoefficient;
     closestHit.color = color_mult(closestHit.color, scene->ambientCoefficient + diffuseCoefficient * shade);
     closestHit.color = color_mult(closestHit.color, (MAX_VISIBLE_DISTANCE - closestHit.distance) / MAX_VISIBLE_DISTANCE);
+    double reflectivity = closestHit.object->material.reflectivity;
+    if (reflectivity > 0.0 && depth > 0) {
+        Ray reflectedRay = ray_reflect(ray, closestHit.object, collisionPoint);
+        Color reflectionColor = ray_traceRecursive(reflectedRay, scene, depth - 1);
+        closestHit.color = color_addWeighted(closestHit.color, 1.0 - reflectivity, reflectionColor, reflectivity);
+    }
     return closestHit.color;
 }
 
@@ -80,47 +95,30 @@ static TracingResult ray_traceOnce(Ray ray, const Scene *scene) {
     return closestHit;
 }
 
-static TracingResult ray_traceForShadow(Ray ray, const Scene *scene, const Object *objectToExclude, double lightDistance) {
-    TracingResult closestHit;
-    TracingResult currentHit;
-    closestHit.hit = 0;
-    closestHit.color = scene->backgroundColor;
-    closestHit.distance = 1.0/0.0; // infinity
-    for (size_t i = 0; i < scene->objects.count; i++) {
-        Object *object = ARRAY_GET(&scene->objects, i);
-        if (object == objectToExclude) {
-            continue;
-        }
-        currentHit = ray_checkIntersection(ray, object);
-        if (currentHit.hit
-            && currentHit.distance < closestHit.distance
-            && currentHit.distance < lightDistance) {
-            closestHit = currentHit;
-        }
-    }
-    return closestHit;
-}
-
 static double tracingresult_shadeAtPoint(TracingResult *result, const Scene *scene, Vector3 point) {
     size_t i;
     Light *light;
-    double shade = 0.0;
-    Vector3 lightDirection;
+    double shade = 0.0, lightDistance;
+    Vector3 lightDirection, rayDirection;
     TracingResult shadowTracingResult;
     for (i = 0; i < scene->lights.count; i++) {
         light = ARRAY_GET(&scene->lights, i);
         lightDirection = light_getDirection(light, point);
-        Vector3 rayDirection = vec3_negate(lightDirection);
-        double lightDistance = vec3_length(vec3_sub(light->position, point));
-        shadowTracingResult = ray_traceForShadow(ray_make(point, rayDirection), scene, result->object, lightDistance);
-        if (!shadowTracingResult.hit) {
+        rayDirection = vec3_negate(lightDirection);
+        lightDistance = vec3_length(vec3_sub(light->position, point));
+        shadowTracingResult = ray_traceOnce(ray_make(point, rayDirection), scene);
+        if (!shadowTracingResult.hit || shadowTracingResult.distance > lightDistance) {
             shade += light_getShade(light, lightDirection, object_getNormalAtPoint(result->object, point));
-        }
-        if (result->object->type == GTSphere && shadowTracingResult.hit) {
-            ;
         }
     }
     return shade;
+}
+
+static Ray ray_reflect(Ray ray, const Object *object, Vector3 point) {
+    Vector3 N = object_getNormalAtPoint(object, point);
+    double c1 = - vec3_dot(N, ray.direction);
+    Vector3 RI = vec3_add(ray.direction, vec3_mult(N, 2 * c1));
+    return ray_make(point, RI);
 }
 
 static TracingResult ray_checkIntersection(Ray ray, const Object *object) {

@@ -21,8 +21,14 @@ void raytracer_loadDemo(Raytracer *rt) {
 }
 
 void raytracer_render(Raytracer *rt, DrawFunction draw, void *data) {
-//    Light *light = array_get(&rt->scene.lights, 0);
-//    light_moveLeftRight(light);
+//    static int cameraStatus = 0;
+//    if (cameraStatus) {
+//        rt->scene.camera.position.x += 3;
+//        cameraStatus = 0;
+//    } else {
+//        rt->scene.camera.position.x -= 3;
+//        cameraStatus = 1;
+//    }
     camera_setup(&rt->scene.camera);
     for (size_t x = 0; x < rt->resolutionX; x++) {
         for (size_t y = 0; y < rt->resolutionY; y++) {

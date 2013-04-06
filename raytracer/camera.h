@@ -22,7 +22,7 @@ typedef struct {
     double height;
 } Camera;
 
-void camera_init(Camera *c, double focalLength, double width, double height);
+void camera_init(Camera *cam, Vector3 position, Vector3 direction, double focalLength, double width, double height);
 void camera_setup(Camera *c);
 
 #endif

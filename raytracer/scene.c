@@ -14,7 +14,7 @@
 void scene_init(Scene *scene) {
     array_init(&scene->objects, INIT_CAPACITY, sizeof(Object));
     array_init(&scene->lights, INIT_CAPACITY, sizeof(Light));
-    camera_init(&scene->camera, 250.0, 640, 480);
+    camera_init(&scene->camera, vec3_make(0, 35, 0), vec3_make(0, 0, 1), 350.0, 640, 480);
     scene->backgroundColor = COLOR_WHITE;
 }
 
@@ -22,15 +22,17 @@ void scene_loadDemo(Scene *scene) {
     Object spheres[3];
     Object triangles[10];
     Vector3 vs[8];
-    Light lights[2];
+    Light lights[4];
     lights[0] = light_make(vec3_make(60, 60, 30), 1.0);
-    lights[1] = light_make(vec3_make(-70, 30, 60), 1.0);
-    spheres[0] = object_initSphere(vec3_make(0, 45, 80), 20,
+    lights[1] = light_make(vec3_make(60, 65, 30), 1.0);
+    lights[2] = light_make(vec3_make(65, 60, 30), 1.0);
+    lights[3] = light_make(vec3_make(65, 65, 30), 1.0);
+    spheres[0] = object_initSphere(vec3_make(0, 45, 60), 10,
                                    material_make(COLOR_RED, 0.5));
-    spheres[1] = object_initSphere(vec3_make(15, 20, 80), 20,
-                                   material_make(COLOR_GREEN, 0.8));
-    spheres[2] = object_initSphere(vec3_make(-15, 20, 80), 25,
-                                   material_make(COLOR_BLUE, 0.0));
+    spheres[1] = object_initSphere(vec3_make(25, 10, 80), 20,
+                                   material_make(COLOR_GREEN, 0.5));
+    spheres[2] = object_initSphere(vec3_make(-25, 10, 110), 20,
+                                   material_make(COLOR_BLUE, 0.5));
     Material sideWallMaterial1 = material_make(COLOR_WHITE, 0.0);
     Material sideWallMaterial2 = material_make(COLOR_WHITE, 0.0);
     Material ceilingMaterial = material_make(COLOR_WHITE, 0.0);
