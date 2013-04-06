@@ -89,3 +89,7 @@ Vector3 vec3_cross(Vector3 a, Vector3 b) {
     v.z = (a.x * b.y) - (b.x * a.y);
     return v;
 }
+
+Vector3 vec3_negate(Vector3 v) {
+    return vec3_make(-v.x, -v.y, -v.z);
+}

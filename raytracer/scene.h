@@ -18,7 +18,6 @@
 typedef struct {
     Array objects;
     Array lights;
-    Light ambientLight;
     double ambientCoefficient;
     Camera camera;
     Color backgroundColor;
@@ -26,6 +25,8 @@ typedef struct {
 
 void scene_init(Scene *scene);
 void scene_loadDemo(Scene *scene);
+void scene_AddLight(Scene *scene, Light *light);
+void scene_AddLightRange(Scene *scene, Light *lights, size_t len);
 void scene_addObject(Scene *scene, Object *object);
 void scene_addObjectRange(Scene *scene, Object *objects, size_t len);
 void scene_dealloc(Scene *scene);

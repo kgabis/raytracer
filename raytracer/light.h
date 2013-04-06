@@ -14,13 +14,12 @@
 
 typedef struct {
     Vector3 position;
-    Vector3 direction;
-    Color color;
     double intensity;
 } Light;
 
-Light light_make(Vector3 position, Vector3 direction, Color color, double intensity);
-double light_getAmbientShade(const Light *light, Vector3 planeNormal);
+Light light_make(Vector3 position, double intensity);
+Vector3 light_getDirection(const Light *light, Vector3 point);
+double light_getShade(const Light *light, Vector3 point, Vector3 normal);
 void light_moveLeftRight(Light *light);
 
 #endif

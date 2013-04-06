@@ -64,5 +64,6 @@ Vector3 vec3_div(Vector3 v, double b);
 double  vec3_length(Vector3 v);
 Vector3 vec3_unit(Vector3 v);
 Vector3 vec3_cross(Vector3 a, Vector3 b);
+Vector3 vec3_negate(Vector3 v);
 
 #endif

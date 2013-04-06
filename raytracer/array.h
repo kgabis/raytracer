@@ -9,7 +9,7 @@
 #ifndef raytracer_array_h
 #define raytracer_array_h
 
-#define ARRAY_GET(array, index) ((a)->items + ((index) * (a)->itemSize))
+#define ARRAY_GET(a, index) ((a)->items + ((index) * (a)->itemSize))
 
 typedef struct {
     void *items;

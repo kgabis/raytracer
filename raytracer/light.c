@@ -8,17 +8,18 @@
 
 #include "light.h"
 
-Light light_make(Vector3 position, Vector3 direction, Color color, double intensity) {
+Light light_make(Vector3 position, double intensity) {
     Light l;
-    l.position = position;
-    l.direction = vec3_unit(direction);
-    l.color = color;
-    l.intensity = intensity;
+    l.position = position, l.intensity = intensity;
     return l;
 }
 
-double light_getAmbientShade(const Light *light, Vector3 planeNormal) {
-    double shade = VEC3_DOT(planeNormal, light->direction);
+Vector3 light_getDirection(const Light *light, Vector3 point) {
+    return vec3_unit(vec3_sub(point, light->position));
+}
+
+double light_getShade(const Light *light, Vector3 direction, Vector3 normal) {
+    double shade = VEC3_DOT(normal, direction);
     if (shade < 0) {
         shade = 0;
     }
@@ -26,12 +27,12 @@ double light_getAmbientShade(const Light *light, Vector3 planeNormal) {
 }
 
 void light_moveLeftRight(Light *light) {
-    static int direction = -1;
-    static double range = 0.8;
-    if (light->direction.x <= -range) {
-        direction = 1;
-    } else if (light->direction.x >= range){
-        direction = -1;
+    static int direction = -10;
+    static double range = 60;
+    if (light->position.x <= -range) {
+        direction = 10;
+    } else if (light->position.x >= range){
+        direction = -10;
     }
-    light->direction = vec3_unit(vec3_add(light->direction, vec3_make(0.1 * direction, 0, 0)));
+    light->position.z += direction;
 }

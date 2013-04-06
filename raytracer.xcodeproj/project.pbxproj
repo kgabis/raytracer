@@ -279,6 +279,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
