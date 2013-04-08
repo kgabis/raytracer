@@ -73,6 +73,7 @@ static Color ray_traceRecursive(Ray ray, const Scene *scene, size_t depth) {
     ShadingResult shadingResult = ray_shadeAtPoint(ray, &closestHit, scene, collisionPoint);
 
     closestHit.color = getHighlightedColor(closestHit.color, shadingResult, scene->ambientCoefficient);
+
     closestHit.color = color_mult(closestHit.color, (MAX_VISIBLE_DISTANCE - closestHit.distance) / MAX_VISIBLE_DISTANCE);
     double reflectivity = closestHit.object->material.reflectivity;
     if (reflectivity > 0.0 && depth > 0) {
@@ -89,11 +90,11 @@ static TracingResult ray_traceOnce(Ray ray, const Scene *scene) {
     TracingResult currentHit;
     closestHit.hit = 0;
     closestHit.color = scene->backgroundColor;
-    closestHit.distance = 1.0/0.0; // infinity
+    closestHit.distance = 1.0 / 0.0; // infinity
     for (size_t i = 0; i < scene->objects.count; i++) {
         Object *object = ARRAY_GET(&scene->objects, i);
         currentHit = ray_checkIntersection(ray, object);
-        if (currentHit.hit && currentHit.distance < closestHit.distance) {
+        if (currentHit.hit && currentHit.distance < closestHit.distance && currentHit.distance >= 0) {
             closestHit = currentHit;
         }
     }
@@ -214,9 +215,9 @@ static TracingResult ray_checkSphereIntersection_2(Ray ray, const Sphere *s) {
 
 // http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf
 static TracingResult ray_checkTriangleIntersectionWithCulling(Ray ray, const Triangle *t) {
+    Vector3 pvec, tvec, qvec;
     TracingResult result;
     result.hit = 0;
-    Vector3 pvec, tvec, qvec;
     VEC3_CROSS(pvec, ray.direction, t->edges[0]);
     double det = VEC3_DOT(t->edges[1], pvec);
 #define EPSILON 0.000001

@@ -23,8 +23,9 @@ typedef struct {
     Color backgroundColor;
 } Scene;
 
-void scene_init(Scene *scene);
+void scene_init(Scene *scene, size_t width, size_t height);
 void scene_loadDemo(Scene *scene);
+void scene_loadMesh(Scene *scene, const char *filename);
 void scene_AddLight(Scene *scene, Light *light);
 void scene_AddLightRange(Scene *scene, Light *lights, size_t len);
 void scene_addObject(Scene *scene, Object *object);

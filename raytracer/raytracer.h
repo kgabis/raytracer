@@ -22,6 +22,7 @@ typedef struct {
 
 void raytracer_init(Raytracer *rt, size_t resolutionX, size_t resolutionY);
 void raytracer_loadDemo(Raytracer *rt);
+void raytracer_loadTeapotDemo(Raytracer *rt);
 void raytracer_render(Raytracer *rt, DrawFunction draw, void *data);
 void raytracer_dealloc(Raytracer *rt);
 

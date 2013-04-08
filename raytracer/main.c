@@ -38,7 +38,8 @@ int main() {
     sfClock *clock = sfClock_create();
     sfTime time;
     sfSprite_setTexture(sprite, texture, sfFalse);
-    raytracer_loadDemo(&rt);
+//    raytracer_loadDemo(&rt);
+    raytracer_loadTeapotDemo(&rt);
     window = sfRenderWindow_create(mode, "raytracer", sfClose, NULL);
     if (!window) {
         return 1;
@@ -59,7 +60,6 @@ int main() {
         sfRenderWindow_display(window);
         time = sfClock_getElapsedTime(clock);
         printf("Seconds per frame: %f\n", sfTime_asSeconds(time));
-        //        sfSleep(sfSeconds(1.0f));
     }
     
     sfImage_destroy(screen);

@@ -13,5 +13,5 @@
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
 #define LIMIT(val, min, max) ((val) > (max) ? (max) : ((val) < (min) ? (min) : (val)))
-
+#define STREQ(a,b) (strcmp(a,b) == 0)
 #endif

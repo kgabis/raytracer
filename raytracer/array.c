@@ -70,5 +70,5 @@ void array_remove(Array *a, size_t index) {
 }
 
 void array_dealloc(Array *a) {
-    free(a);
+    free(a->items);
 }
