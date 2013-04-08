@@ -36,6 +36,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EEABEDEF1710CBE300EAFC69 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		EEE90A2A17084824003E99ED /* raytracer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = raytracer; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEE90A2D17084824003E99ED /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		EEE90A2F17084824003E99ED /* raytracer.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = raytracer.1; sourceTree = "<group>"; };
@@ -125,6 +126,7 @@
 				EEE90A531709EA47003E99ED /* camera.c */,
 				EEE90A551709F40D003E99ED /* ray.h */,
 				EEE90A561709F435003E99ED /* ray.c */,
+				EEABEDEF1710CBE300EAFC69 /* utils.h */,
 			);
 			name = basic_types;
 			sourceTree = "<group>";

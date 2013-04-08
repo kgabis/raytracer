@@ -8,9 +8,10 @@
 
 #include "material.h"
 
-Material material_make(Color color, double reflectivity) {
+Material material_make(Color color, double reflectivity, double specularity) {
     Material m;
     m.color = color;
     m.reflectivity = reflectivity;
+    m.specularity = specularity;
     return m;
 }

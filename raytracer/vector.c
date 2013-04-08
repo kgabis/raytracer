@@ -7,11 +7,11 @@
 //
 
 #include <stdio.h>
-#include "vector.h"
 #include <math.h>
 #include <stdint.h>
 
-#define SQ(x) ((x)*(x))
+#include "vector.h"
+#include "utils.h"
 
 double invSqrt_1(double y)
 {
@@ -74,11 +74,11 @@ Vector3 vec3_div(Vector3 v, double b) {
 }
 
 double vec3_length(Vector3 v) {
-    return sqrt(SQ(v.x) + SQ(v.y) + SQ(v.z));
+    return sqrt(SQUARE(v.x) + SQUARE(v.y) + SQUARE(v.z));
 }
 
 Vector3 vec3_unit(Vector3 v) {
-    double is = invSqrt_1(SQ(v.x) + SQ(v.y) + SQ(v.z));
+    double is = invSqrt_1(SQUARE(v.x) + SQUARE(v.y) + SQUARE(v.z));
     return vec3_mult(v, is);
 }
 

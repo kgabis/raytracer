@@ -41,5 +41,6 @@ Color color_makeFromRGBAhex(unsigned int c);
 Color color_add(Color a, Color b);
 Color color_addWeighted(Color a, double weightA, Color b, double weightB);
 Color color_mult(Color c, double n);
+Color color_blend(Color a, double weightA, Color b);
 
 #endif

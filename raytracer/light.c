@@ -5,8 +5,13 @@
 //  Created by Krzysztof Gabis on 01.04.2013.
 //  Copyright (c) 2013 Krzysztof Gabis. All rights reserved.
 //
+// http://en.wikipedia.org/wiki/Phong_reflection_model
 
+#include <math.h>
 #include "light.h"
+
+// Specular reflection constant
+#define KS_CONST 1.0
 
 Light light_make(Vector3 position, double intensity) {
     Light l;
@@ -18,12 +23,24 @@ Vector3 light_getDirection(const Light *light, Vector3 point) {
     return vec3_unit(vec3_sub(point, light->position));
 }
 
-double light_getShade(const Light *light, Vector3 direction, Vector3 normal) {
-    double shade = VEC3_DOT(normal, direction);
-    if (shade < 0) {
-        shade = 0;
+double light_getDiffusedHighlight(const Light *light, Vector3 direction, Vector3 normal) {
+    double highlight = VEC3_DOT(normal, direction);
+    if (highlight < 0) {
+        return 0;
     }
-    return shade * light->intensity;
+    return highlight;
+}
+
+double light_getSpecularHighlight(const Light *light, Vector3 lightDirection, Vector3 normal, Vector3 rayDirection, double specularity) {
+    double highlight = VEC3_DOT(normal, lightDirection);
+    Vector3 V = vec3_negate(rayDirection);
+    Vector3 R = vec3_sub(lightDirection, vec3_mult(normal, highlight * 2.0));
+    float dot = vec3_dot(V, R);
+    if (dot < 0) {
+        return 0;
+    }
+    float spec = pow(dot, specularity) * KS_CONST;
+    return spec;
 }
 
 void light_moveLeftRight(Light *light) {

@@ -14,7 +14,7 @@
 void scene_init(Scene *scene) {
     array_init(&scene->objects, INIT_CAPACITY, sizeof(Object));
     array_init(&scene->lights, INIT_CAPACITY, sizeof(Light));
-    camera_init(&scene->camera, vec3_make(0, 35, 0), vec3_make(0, 0, 1), 350.0, 640, 480);
+    camera_init(&scene->camera, vec3_make(0, 35, -50), vec3_make(0, 0, 1), 430.0, 640, 480);
     scene->backgroundColor = COLOR_WHITE;
 }
 
@@ -27,16 +27,16 @@ void scene_loadDemo(Scene *scene) {
     lights[1] = light_make(vec3_make(60, 65, 30), 1.0);
     lights[2] = light_make(vec3_make(65, 60, 30), 1.0);
     lights[3] = light_make(vec3_make(65, 65, 30), 1.0);
-    spheres[0] = object_initSphere(vec3_make(0, 45, 60), 10,
-                                   material_make(COLOR_RED, 0.5));
+    spheres[0] = object_initSphere(vec3_make(0, 55, 110), 30,
+                                   material_make(COLOR_RED, 0.5, 40.0));
     spheres[1] = object_initSphere(vec3_make(25, 10, 80), 20,
-                                   material_make(COLOR_GREEN, 0.5));
-    spheres[2] = object_initSphere(vec3_make(-25, 10, 110), 20,
-                                   material_make(COLOR_BLUE, 0.5));
-    Material sideWallMaterial1 = material_make(COLOR_WHITE, 0.0);
-    Material sideWallMaterial2 = material_make(COLOR_WHITE, 0.0);
-    Material ceilingMaterial = material_make(COLOR_WHITE, 0.0);
-    Material floorMaterial = material_make(COLOR_WHITE, 0.0);
+                                   material_make(COLOR_GREEN, 0.5, 20.2));
+    spheres[2] = object_initSphere(vec3_make(-25, 10, 50), 15,
+                                   material_make(COLOR_BLUE, 0.5, 100));
+    Material sideWallMaterial1 = material_make(COLOR_WHITE, 0.0, 100);
+    Material sideWallMaterial2 = material_make(COLOR_WHITE, 0.0, 100);
+    Material ceilingMaterial = material_make(COLOR_WHITE, 0.0, 100);
+    Material floorMaterial = material_make(COLOR_WHITE, 0.0, 100);
     vs[0] = vec3_make(-75, -40, 50);
     vs[1] = vec3_make(-75, -40, 150);
     vs[2] = vec3_make(75, -40, 50);
@@ -63,7 +63,7 @@ void scene_loadDemo(Scene *scene) {
     scene_addObjectRange(scene, spheres, 3);
     scene_addObjectRange(scene, triangles, 10);
     scene_AddLightRange(scene, lights, 1);
-    scene->ambientCoefficient = 0.6;
+    scene->ambientCoefficient = 0.5;
 }
 
 void scene_AddLight(Scene *scene, Light *light) {
