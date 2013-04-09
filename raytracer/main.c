@@ -12,8 +12,8 @@
 
 #include "raytracer.h"
 
-#define WINDOW_WIDTH 640
-#define WINDOW_HEIGHT 480
+#define WINDOW_WIDTH 720
+#define WINDOW_HEIGHT 600
 
 void draw(void *data, Color color, size_t x, size_t y) {
     sfImage *screen = (sfImage*)data;
@@ -38,8 +38,9 @@ int main() {
     sfClock *clock = sfClock_create();
     sfTime time;
     sfSprite_setTexture(sprite, texture, sfFalse);
-//    raytracer_loadDemo(&rt);
-    raytracer_loadTeapotDemo(&rt);
+//    scene_loadTeapotDemo(&rt.scene);
+//    scene_loadSpheresDemo(&rt.scene);
+    scene_loadSnowmanDemo(&rt.scene);
     window = sfRenderWindow_create(mode, "raytracer", sfClose, NULL);
     if (!window) {
         return 1;

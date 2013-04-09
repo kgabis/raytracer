@@ -13,8 +13,8 @@
 #include "ray.h"
 #include "utils.h"
 
-#define MAX_RECURSION_DEPTH 4
-#define MAX_VISIBLE_DISTANCE 400.0
+#define MAX_RECURSION_DEPTH 10
+#define MAX_VISIBLE_DISTANCE 600.0
 
 typedef struct {
     int hit;
@@ -74,14 +74,15 @@ static Color ray_traceRecursive(Ray ray, const Scene *scene, size_t depth) {
 
     closestHit.color = getHighlightedColor(closestHit.color, shadingResult, scene->ambientCoefficient);
 
-    closestHit.color = color_mult(closestHit.color, (MAX_VISIBLE_DISTANCE - closestHit.distance) / MAX_VISIBLE_DISTANCE);
     double reflectivity = closestHit.object->material.reflectivity;
     if (reflectivity > 0.0 && depth > 0) {
         Ray reflectedRay = ray_reflect(ray, closestHit.object, collisionPoint);
-//        reflectedRay = ray_addNoise(reflectedRay, 0.01);
+        reflectedRay = ray_addNoise(reflectedRay, 0.02);
         Color reflectionColor = ray_traceRecursive(reflectedRay, scene, depth - 1);
         closestHit.color = color_addWeighted(closestHit.color, 1.0 - reflectivity, reflectionColor, reflectivity);
     }
+    closestHit.color = color_mult(closestHit.color, (MAX_VISIBLE_DISTANCE - closestHit.distance) / MAX_VISIBLE_DISTANCE);
+
     return closestHit.color;
 }
 

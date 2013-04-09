@@ -16,14 +16,6 @@ void raytracer_init(Raytracer *rt, size_t resolutionX, size_t resolutionY) {
     rt->resolutionY = resolutionY;
 }
 
-void raytracer_loadDemo(Raytracer *rt) {
-    scene_loadDemo(&rt->scene);
-}
-
-void raytracer_loadTeapotDemo(Raytracer *rt) {
-    scene_loadMesh(&rt->scene, "teapot.txt");
-}
-
 void raytracer_render(Raytracer *rt, DrawFunction draw, void *data) {
 //    static int cameraStatus = 0;
 //    if (cameraStatus) {

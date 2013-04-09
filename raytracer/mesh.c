@@ -23,17 +23,20 @@ enum FileStatus {
 
 Array mesh_load(const char *filename, Material material) {
     Array vertices, triangles;
-    FILE *fp = fopen(filename, "r");
-    if (fp == NULL) {
-        goto fp_error;
-    }
+    FILE *fp;
     char line[LINE_SIZE];
     array_init(&vertices, sizeof(Vector3), 1500);
     array_init(&triangles, sizeof(Object), 1500);
     double x, y, z;
-    size_t verticeNums[3];
-    Vector3 *faceVertices[3];
+    size_t vNums[3];
+    Vector3 *face[3];
     int parseStatus = FSHeader;
+    int sscanfResult;
+    Object faceObject;
+    fp = fopen(filename, "r");
+    if (fp == NULL) {
+        goto fp_error;
+    }
     while (fgets(line, LINE_SIZE, fp) != NULL) {
         switch (parseStatus) {
             case FSHeader:
@@ -45,18 +48,24 @@ Array mesh_load(const char *filename, Material material) {
                 if (STREQ(line, "\n")) {
                     parseStatus = FSFaces;
                 } else {
-                    sscanf(line, "%lf %lf %lf\n", &x, &y, &z);
+                    sscanfResult = sscanf(line, "%lf %lf %lf\n", &x, &y, &z);
+                    if (sscanfResult == EOF) {
+                        goto error;
+                    }
                     Vector3 v = vec3_make(x, y, z);
                     array_add(&vertices, &v);
                 }
                 break;
             case FSFaces:
-                sscanf(line, "%zu %zu %zu\n", &verticeNums[0], &verticeNums[1], &verticeNums[2]);
-                faceVertices[0] = ARRAY_GET(&vertices, verticeNums[0]);
-                faceVertices[1] = ARRAY_GET(&vertices, verticeNums[1]);
-                faceVertices[2] = ARRAY_GET(&vertices, verticeNums[2]);
-                Object face = object_initTriangle(*faceVertices[0], *faceVertices[1], *faceVertices[2], material);
-                array_add(&triangles, &face);
+                sscanfResult = sscanf(line, "%zu %zu %zu\n", &vNums[0], &vNums[1], &vNums[2]);
+                if (sscanfResult == EOF) {
+                    goto error;
+                }
+                face[0] = ARRAY_GET(&vertices, vNums[0]);
+                face[1] = ARRAY_GET(&vertices, vNums[1]);
+                face[2] = ARRAY_GET(&vertices, vNums[2]);
+                faceObject = object_initTriangle(*face[0], *face[1], *face[2], material);
+                array_add(&triangles, &faceObject);
                 break;
             default:
                 goto error;
@@ -64,8 +73,8 @@ Array mesh_load(const char *filename, Material material) {
         }
     }
     fclose(fp);
-    printf("Vertices:  %zd\n", vertices.count);
-    printf("Triangles: %zd\n", triangles.count);
+//    printf("Vertices:  %zd\n", vertices.count);
+//    printf("Triangles: %zd\n", triangles.count);
     return triangles;
 error:
     fclose(fp);

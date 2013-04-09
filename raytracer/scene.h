@@ -24,8 +24,10 @@ typedef struct {
 } Scene;
 
 void scene_init(Scene *scene, size_t width, size_t height);
-void scene_loadDemo(Scene *scene);
-void scene_loadMesh(Scene *scene, const char *filename);
+void scene_loadSpheresDemo(Scene *scene);
+void scene_loadTeapotDemo(Scene *scene);
+void scene_loadSnowmanDemo(Scene *scene);
+void scene_loadMesh(Scene *scene, const char *filename, Material meshMaterial);
 void scene_AddLight(Scene *scene, Light *light);
 void scene_AddLightRange(Scene *scene, Light *lights, size_t len);
 void scene_addObject(Scene *scene, Object *object);

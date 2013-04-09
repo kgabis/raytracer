@@ -28,7 +28,7 @@ double light_getDiffusedHighlight(const Light *light, Vector3 direction, Vector3
     if (highlight < 0) {
         return 0;
     }
-    return highlight;
+    return highlight * light->intensity;
 }
 
 double light_getSpecularHighlight(const Light *light, Vector3 lightDirection, Vector3 normal, Vector3 rayDirection, double specularity) {

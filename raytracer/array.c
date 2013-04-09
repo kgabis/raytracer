@@ -43,6 +43,16 @@ int array_add(Array *a, void *item) {
     return 1;
 }
 
+int array_addArray(Array *array, const Array *toAdd) {
+    size_t i;
+    for (i = 0; i < toAdd->count; i++) {
+        if (!array_add(array, array_get(toAdd, i))) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
 void* array_getSafe(const Array *a, size_t index) {
     if (index >= a->count) {
         return NULL;

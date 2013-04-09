@@ -20,6 +20,7 @@ typedef struct {
 
 Array *array_init(Array *array, size_t itemSize, size_t initialCapacity);
 int array_add(Array *array, void *item); // 1 on success
+int array_addArray(Array *array, const Array *toAdd);
 void* array_getSafe(const Array *a, size_t index);
 void* array_get(const Array *array, size_t index);
 void array_remove(Array *array, size_t index);
