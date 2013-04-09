@@ -9,11 +9,13 @@
 #include <SFML/Graphics.h>
 #include <SFML/Graphics/Sprite.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "raytracer.h"
+#include "utils.h"
 
 #define WINDOW_WIDTH 720
-#define WINDOW_HEIGHT 600
+#define WINDOW_HEIGHT 640
 
 void draw(void *data, Color color, size_t x, size_t y) {
     sfImage *screen = (sfImage*)data;
@@ -25,7 +27,21 @@ void draw(void *data, Color color, size_t x, size_t y) {
     sfImage_setPixel(screen, (int)x, (int)y, sfcolor);
 }
 
-int main() {
+void selectDemo(int argc, const char *argv[], Scene *scene) {
+    if (argc != 2) {
+        printf("Usage: %s DEMO_NAME\n", argv[0]);
+        printf("Available demos: spheres, snowman, teapot\n");
+        scene_loadSpheresDemo(scene);
+    } else if (STREQ(argv[1], "spheres")) {
+        scene_loadSpheresDemo(scene);
+    } else if (STREQ(argv[1], "snowman")) {
+        scene_loadSnowmanDemo(scene);
+    } else if (STREQ(argv[1], "teapot")) {
+        scene_loadTeapotDemo(scene);
+    }
+}
+
+int main(int argc, const char *argv[]) {
     sfVideoMode mode = {WINDOW_WIDTH, WINDOW_HEIGHT, 32};
     sfIntRect bounds = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
     sfRenderWindow *window;
@@ -38,9 +54,7 @@ int main() {
     sfClock *clock = sfClock_create();
     sfTime time;
     sfSprite_setTexture(sprite, texture, sfFalse);
-//    scene_loadTeapotDemo(&rt.scene);
-//    scene_loadSpheresDemo(&rt.scene);
-    scene_loadSnowmanDemo(&rt.scene);
+    selectDemo(argc, argv, &rt.scene);
     window = sfRenderWindow_create(mode, "raytracer", sfClose, NULL);
     if (!window) {
         return 1;

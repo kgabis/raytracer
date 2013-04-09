@@ -83,12 +83,14 @@ void scene_loadSpheresDemo(Scene *scene) {
 void scene_loadTeapotDemo(Scene *scene) {
     Material teapotMaterial = material_make(COLOR_WHITE, 0.2, 20);
     scene_loadMesh(scene, "teapot.txt", teapotMaterial);
+    
     scene->backgroundColor = COLORS1_BLUE;
     Light light = light_make(vec3_make(10, 10, -20), 1.0);
     scene_AddLight(scene, &light);
     scene->ambientCoefficient = 0.6;
-    camera_init(&scene->camera, vec3_make(0, 5, -10), vec3_make(0, -0.2, 1), 650.0,
+    camera_init(&scene->camera, vec3_make(0, 5, -10), vec3_make(0, -0.4, 1), 800.0,
                 scene->camera.width, scene->camera.height);
+    
     Material screenMaterial = material_make(COLORS1_BLUE, 0.0, 200);
     Vector3 vs[8];
     vs[0] = vec3_make(-500, -500, -30);
@@ -100,16 +102,10 @@ void scene_loadTeapotDemo(Scene *scene) {
     vs[5] = vec3_make(-500, 500, 5);
     vs[6] = vec3_make(500, 500, 5);
     vs[7] = vec3_make(500, -500, 5);
-    Object triangles[4];
-//    triangles[0] = object_initTriangle(vs[0], vs[1], vs[2], screenMaterial);
-//    triangles[1] = object_initTriangle(vs[0], vs[2], vs[3], screenMaterial);
-    
+    Object triangles[2]; // Back wall
     triangles[0] = object_initTriangle(vs[6], vs[5], vs[4], screenMaterial);
     triangles[1] = object_initTriangle(vs[7], vs[6], vs[4], screenMaterial);
     scene_addObjectRange(scene, triangles, 2);
-//    Material sphereMaterial = material_make(COLOR_RED, 0.5, 20);
-//    Object sphere = object_initSphere(vec3_make(5, 5, 10), 5, sphereMaterial);
-//    scene_addObject(scene, &sphere);
 }
 
 void scene_loadSnowmanDemo(Scene *scene) {

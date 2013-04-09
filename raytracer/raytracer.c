@@ -17,14 +17,6 @@ void raytracer_init(Raytracer *rt, size_t resolutionX, size_t resolutionY) {
 }
 
 void raytracer_render(Raytracer *rt, DrawFunction draw, void *data) {
-//    static int cameraStatus = 0;
-//    if (cameraStatus) {
-//        rt->scene.camera.position.x += 3;
-//        cameraStatus = 0;
-//    } else {
-//        rt->scene.camera.position.x -= 3;
-//        cameraStatus = 1;
-//    }
     camera_setup(&rt->scene.camera);
     for (size_t x = 0; x < rt->resolutionX; x++) {
         for (size_t y = 0; y < rt->resolutionY; y++) {

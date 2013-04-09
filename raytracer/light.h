@@ -22,6 +22,5 @@ Vector3 light_getDirection(const Light *light, Vector3 point);
 double light_getDiffusedHighlight(const Light *light, Vector3 lightDirection, Vector3 normal);
 double light_getSpecularHighlight(const Light *light, Vector3 lightDirection,
                                   Vector3 normal, Vector3 rayDirection, double specularity);
-void light_moveLeftRight(Light *light);
 
 #endif

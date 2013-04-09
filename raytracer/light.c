@@ -39,17 +39,6 @@ double light_getSpecularHighlight(const Light *light, Vector3 lightDirection, Ve
     if (dot < 0) {
         return 0;
     }
-    float spec = pow(dot, specularity) * KS_CONST;
+    float spec = pow(dot, specularity) * KS_CONST * light->intensity;
     return spec;
-}
-
-void light_moveLeftRight(Light *light) {
-    static int direction = -10;
-    static double range = 60;
-    if (light->position.x <= -range) {
-        direction = 10;
-    } else if (light->position.x >= range){
-        direction = -10;
-    }
-    light->position.z += direction;
 }
