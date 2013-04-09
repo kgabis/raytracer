@@ -2,8 +2,8 @@
 A raytracer in C. It has shadows, reflections, lights ([phong model](http://en.wikipedia.org/wiki/Phong_reflection_model)). It needs [CSFML 2.0](http://www.sfml-dev.org/download.php) to run.
 
 ##Usage
-You could use included xcode project (remember to have required csfml files installed in /usr/local/lib and /usr/local/include). You also should be able to compile it using makefile with ```make mac``` or ```make linux``` comand.
-It has 3 demos hardcoded, you can edit scene.c to change them.
+You could use included xcode project (remember to have required csfml files installed in /usr/local/lib and /usr/local/include). You should also be able to compile it using a makefile (in raytracer directory) with ```make mac``` or ```make linux``` command.
+It has 3 hardcoded demos, you can edit scene.c to change them.
 
 For instance:
 ```
