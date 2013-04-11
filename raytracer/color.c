@@ -33,9 +33,9 @@ Color color_add(Color a, Color b) {
 Color color_addWeighted(Color a, double weightA, Color b, double weightB) {
     double sum = weightA + weightB;
     Color c;
-    c.r = ((a.r * weightA) + (b.r * weightB))/ sum;
-    c.g = ((a.g * weightA) + (b.g * weightB))/ sum;
-    c.b = ((a.b * weightA) + (b.b * weightB))/ sum;
+    c.r = ((a.r * weightA) + (b.r * weightB)) / sum;
+    c.g = ((a.g * weightA) + (b.g * weightB)) / sum;
+    c.b = ((a.b * weightA) + (b.b * weightB)) / sum;
     c.a = 1.0;
     return c;
 }

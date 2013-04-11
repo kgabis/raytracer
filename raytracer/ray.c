@@ -38,7 +38,7 @@ static TracingResult ray_checkSphereIntersection_2(Ray ray, const Sphere *sphere
 static TracingResult ray_checkTriangleIntersectionWithCulling(Ray ray, const Triangle *triangle);
 //static TracingResult ray_checkTriangleIntersectionNoCulling(Ray ray, const Triangle *triangle);
 
-static ShadingResult ray_shadeAtPoint(Ray ray, TracingResult *result, const Scene *scene, Vector3 point);
+static ShadingResult ray_shadeAtPoint(Ray ray, const Scene *scene, const Object *object, Vector3 point);
 static Color getHighlightedColor(Color color, ShadingResult highlight, double ambientCoef);
 
 Ray ray_make(Vector3 origin, Vector3 direction) {
@@ -69,16 +69,18 @@ static Color ray_traceRecursive(Ray ray, const Scene *scene, size_t depth) {
         return closestHit.color;
     }
     Vector3 collisionPoint = vec3_add(vec3_mult(ray.direction, closestHit.distance), ray.origin);
-    ShadingResult shadingResult = ray_shadeAtPoint(ray, &closestHit, scene, collisionPoint);
+    ShadingResult shadingResult = ray_shadeAtPoint(ray, scene, closestHit.object, collisionPoint);
 
     closestHit.color = getHighlightedColor(closestHit.color, shadingResult, scene->ambientCoefficient);
-
-    double reflectivity = closestHit.object->material.reflectivity;
-    if (reflectivity > 0.0 && depth > 0) {
+    
+    Material material = closestHit.object->material;
+    if (material.reflectivity > 0.0 && depth > 0) {
         Ray reflectedRay = ray_reflect(ray, closestHit.object, collisionPoint);
-        reflectedRay = ray_addNoise(reflectedRay, 0.02);
+        if (material.reflectionNoise > 0) {
+            reflectedRay = ray_addNoise(reflectedRay, material.reflectionNoise);
+        }
         Color reflectionColor = ray_traceRecursive(reflectedRay, scene, depth - 1);
-        closestHit.color = color_addWeighted(closestHit.color, 1.0 - reflectivity, reflectionColor, reflectivity);
+        closestHit.color = color_blend(reflectionColor, material.reflectivity, closestHit.color);
     }
     closestHit.color = color_mult(closestHit.color, (MAX_VISIBLE_DISTANCE - closestHit.distance) / MAX_VISIBLE_DISTANCE);
 
@@ -101,7 +103,7 @@ static TracingResult ray_traceOnce(Ray ray, const Scene *scene) {
     return closestHit;
 }
 
-static ShadingResult ray_shadeAtPoint(Ray ray, TracingResult *tracingResult, const Scene *scene, Vector3 point) {
+static ShadingResult ray_shadeAtPoint(Ray ray, const Scene *scene, const Object *object, Vector3 point) {
     size_t i;
     Light *light;
     ShadingResult shadingResult;
@@ -119,11 +121,11 @@ static ShadingResult ray_shadeAtPoint(Ray ray, TracingResult *tracingResult, con
         lightDistance = vec3_length(vec3_sub(light->position, point));
         shadowTracingResult = ray_traceOnce(newRay, scene);
         if (!shadowTracingResult.hit || shadowTracingResult.distance > lightDistance) {
-            Vector3 normal = object_getNormalAtPoint(tracingResult->object, point);
+            Vector3 normal = object_getNormalAtPoint(object, point);
             shadingResult.diffused += light_getDiffusedHighlight(light, lightDirection, normal);
             shadingResult.specular += light_getSpecularHighlight(light, lightDirection,
                                                                  normal, ray.direction,
-                                                                 tracingResult->object->material.specularity);
+                                                                 object->material.specularity);
         }
     }
     return shadingResult;

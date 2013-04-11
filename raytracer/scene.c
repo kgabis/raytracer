@@ -33,19 +33,19 @@ void scene_loadSpheresDemo(Scene *scene) {
     lights[2] = light_make(vec3_make(65, 60, 30), 1.0);
     lights[3] = light_make(vec3_make(65, 65, 30), 1.0);
     spheres[1] = object_initSphere(vec3_make(45, -20, 70), 20,
-                                   material_make(COLOR_GREEN, 0.5, 20.2));
+                                   material_make(COLOR_GREEN, 0.5, 0.05, 20.2));
     spheres[2] = object_initSphere(vec3_make(-35, -25, 80), 15,
-                                   material_make(COLOR_BLUE, 0.5, 100));
+                                   material_make(COLOR_BLUE, 0.5, 0.02, 100));
     spheres[0] = object_initSphere(vec3_make(10, -10, 110), 30,
-                                   material_make(COLOR_RED, 0.5, 40.0));
+                                   material_make(COLOR_RED, 0.5, 0.01, 40.0));
     spheres[3] = object_initSphere(vec3_make(10, 40, 110), 25,
-                                   material_make(COLOR_BLUE, 0.5, 40));
+                                   material_make(COLOR_BLUE, 0.5, 0, 40));
     spheres[4] = object_initSphere(vec3_make(10, 80, 110), 20,
-                                   material_make(COLOR_GREEN, 0.5, 40));
-    Material sideWallMaterial1 = material_make(COLOR_WHITE, 0.0, 40);
-    Material sideWallMaterial2 = material_make(COLOR_WHITE, 0.0, 40);
-    Material ceilingMaterial = material_make(COLOR_WHITE, 0.3, 40);
-    Material floorMaterial = material_make(COLOR_WHITE, 0.3, 40);
+                                   material_make(COLOR_GREEN, 0.5, 0, 40));
+    Material sideWallMaterial1 = material_make(COLOR_WHITE, 0.0, 0, 40);
+    Material sideWallMaterial2 = material_make(COLOR_WHITE, 0.0, 0, 40);
+    Material ceilingMaterial = material_make(COLOR_WHITE, 0.4, 0.15, 40);
+    Material floorMaterial = material_make(COLOR_WHITE, 0.4, 0.15, 40);
     vs[0] = vec3_make(-75, -40, 0);
     vs[1] = vec3_make(-75, -40, 150);
     vs[2] = vec3_make(75, -40, 0);
@@ -81,7 +81,7 @@ void scene_loadSpheresDemo(Scene *scene) {
 }
 
 void scene_loadTeapotDemo(Scene *scene) {
-    Material teapotMaterial = material_make(COLOR_WHITE, 0.2, 20);
+    Material teapotMaterial = material_make(COLOR_WHITE, 0.2, 0, 20);
     scene_loadMesh(scene, "teapot.txt", teapotMaterial);
     
     scene->backgroundColor = COLORS1_BLUE;
@@ -91,7 +91,7 @@ void scene_loadTeapotDemo(Scene *scene) {
     camera_init(&scene->camera, vec3_make(0, 5, -10), vec3_make(0, -0.4, 1), 800.0,
                 scene->camera.width, scene->camera.height);
     
-    Material screenMaterial = material_make(COLORS1_BLUE, 0.0, 200);
+    Material screenMaterial = material_make(COLORS1_BLUE, 0, 0, 200);
     Vector3 vs[8];
     vs[0] = vec3_make(-500, -500, -30);
     vs[1] = vec3_make(-500, 500, -30);
@@ -121,19 +121,19 @@ void scene_loadSnowmanDemo(Scene *scene) {
     lights[2] = light_make(vec3_make(65, 60, 30), 1.0);
     lights[3] = light_make(vec3_make(65, 65, 30), 1.0);
     spheres[1] = object_initSphere(vec3_make(45, -20, 70), 20,
-                                   material_make(COLOR_GREEN, 0.5, 20.2));
+                                   material_make(COLOR_GREEN, 0.5, 0, 20.2));
     spheres[2] = object_initSphere(vec3_make(-35, -25, 80), 15,
-                                   material_make(COLOR_BLUE, 0.5, 100));
+                                   material_make(COLOR_BLUE, 0.5, 0, 100));
     spheres[0] = object_initSphere(vec3_make(10, -10, 110), 30,
-                                   material_make(COLOR_WHITE, 0.2, 40.0));
+                                   material_make(COLOR_WHITE, 0.2, 0, 40.0));
     spheres[3] = object_initSphere(vec3_make(10, 30, 110), 25,
-                                   material_make(COLOR_WHITE, 0.2, 40));
+                                   material_make(COLOR_WHITE, 0.2, 0, 40));
     spheres[4] = object_initSphere(vec3_make(10, 60, 110), 20,
-                                   material_make(COLOR_WHITE, 0.2, 40));
-    Material sideWallMaterial1 = material_make(COLORS1_BLUE, 0.0, 400);
-    Material sideWallMaterial2 = material_make(COLORS1_BLUE, 0.0, 400);
-    Material ceilingMaterial = material_make(COLORS1_BLUE, 0.3, 400);
-    Material floorMaterial = material_make(COLOR_WHITE, 0.3, 40);
+                                   material_make(COLOR_WHITE, 0.2, 0, 40));
+    Material sideWallMaterial1 = material_make(COLORS1_BLUE, 0.0, 0, 400);
+    Material sideWallMaterial2 = material_make(COLORS1_BLUE, 0.0, 0, 400);
+    Material ceilingMaterial = material_make(COLORS1_BLUE, 0.3, 0, 400);
+    Material floorMaterial = material_make(COLOR_WHITE, 0.3, 0, 40);
     vs[0] = vec3_make(-75, -40, 0);
     vs[1] = vec3_make(-75, -40, 150);
     vs[2] = vec3_make(75, -40, 0);

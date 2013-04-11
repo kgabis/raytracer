@@ -73,6 +73,7 @@ Array mesh_load(const char *filename, Material material) {
         }
     }
     fclose(fp);
+    array_dealloc(&vertices);
 //    printf("Vertices:  %zd\n", vertices.count);
 //    printf("Triangles: %zd\n", triangles.count);
     return triangles;
