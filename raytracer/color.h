@@ -30,14 +30,12 @@
 #define COLORS2_BLUE   color_makeFromRGBhex(0x3B9B95)
 
 typedef struct {
-    double r, g, b, a;
+    double r, g, b;
 } Color;
 
-Color color_make(double r, double g, double b, double a);
-Color color_makeFromRGBA(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+Color color_make(double r, double g, double b);
 Color color_makeFromRGB(unsigned char r, unsigned char g, unsigned char b);
 Color color_makeFromRGBhex(unsigned int c);
-Color color_makeFromRGBAhex(unsigned int c);
 Color color_add(Color a, Color b);
 Color color_addWeighted(Color a, double weightA, Color b, double weightB);
 Color color_mult(Color c, double n);
