@@ -10,7 +10,7 @@ endif
 .PHONY: clean
 
 with_libpng:
-	$(CC)  *.c -o raytracer $(CFLAGS) -lPNG -DPNG
+	$(CC)  *.c -o raytracer $(CFLAGS) -lpng -DPNG
 with_csfml:: 
 	$(CC)  *.c -o raytracer $(CFLAGS) -lcsfml-graphics -lcsfml-window -lcsfml-system
 clean:
