@@ -9,6 +9,7 @@
 #ifndef raytracer_raytracer_h
 #define raytracer_raytracer_h
 
+#include <stdlib.h>
 #include "geometry.h"
 #include "scene.h"
 

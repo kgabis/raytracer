@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		EEABEDF21712E9AD00EAFC69 /* mesh.c in Sources */ = {isa = PBXBuildFile; fileRef = EEABEDF11712E9AC00EAFC69 /* mesh.c */; };
-		EEE90A2E17084824003E99ED /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A2D17084824003E99ED /* main.c */; };
+		EEABEE3A1719AECC00EAFC69 /* png_render.c in Sources */ = {isa = PBXBuildFile; fileRef = EEABEE391719AECA00EAFC69 /* png_render.c */; };
+		EEABEE3E1719B20500EAFC69 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = EEABEE3D1719B20400EAFC69 /* main.c */; };
+		EEE90A2E17084824003E99ED /* csfml_render.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A2D17084824003E99ED /* csfml_render.c */; };
 		EEE90A3017084824003E99ED /* raytracer.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = EEE90A2F17084824003E99ED /* raytracer.1 */; };
 		EEE90A3D17084952003E99ED /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A3C17084952003E99ED /* vector.c */; };
 		EEE90A3F17084963003E99ED /* color.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A3E17084963003E99ED /* color.c */; };
@@ -40,8 +42,12 @@
 		EEABEDEF1710CBE300EAFC69 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		EEABEDF01712E9A600EAFC69 /* mesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mesh.h; sourceTree = "<group>"; };
 		EEABEDF11712E9AC00EAFC69 /* mesh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mesh.c; sourceTree = "<group>"; };
+		EEABEE391719AECA00EAFC69 /* png_render.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = png_render.c; sourceTree = "<group>"; };
+		EEABEE3D1719B20400EAFC69 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		EEABEE3F1719B21B00EAFC69 /* png_render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = png_render.h; sourceTree = "<group>"; };
+		EEABEE401719B22100EAFC69 /* csfml_render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = csfml_render.h; sourceTree = "<group>"; };
 		EEE90A2A17084824003E99ED /* raytracer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = raytracer; sourceTree = BUILT_PRODUCTS_DIR; };
-		EEE90A2D17084824003E99ED /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		EEE90A2D17084824003E99ED /* csfml_render.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = csfml_render.c; sourceTree = "<group>"; };
 		EEE90A2F17084824003E99ED /* raytracer.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = raytracer.1; sourceTree = "<group>"; };
 		EEE90A371708490A003E99ED /* object.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = object.h; sourceTree = "<group>"; };
 		EEE90A3817084913003E99ED /* vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
@@ -98,7 +104,11 @@
 			isa = PBXGroup;
 			children = (
 				EEE90A36170848E8003E99ED /* basic_types */,
-				EEE90A2D17084824003E99ED /* main.c */,
+				EEABEE3D1719B20400EAFC69 /* main.c */,
+				EEABEE401719B22100EAFC69 /* csfml_render.h */,
+				EEE90A2D17084824003E99ED /* csfml_render.c */,
+				EEABEE3F1719B21B00EAFC69 /* png_render.h */,
+				EEABEE391719AECA00EAFC69 /* png_render.c */,
 				EEE90A2F17084824003E99ED /* raytracer.1 */,
 				EEE90A4217084986003E99ED /* raytracer.h */,
 				EEE90A4317084995003E99ED /* raytracer.c */,
@@ -187,7 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EEE90A2E17084824003E99ED /* main.c in Sources */,
+				EEE90A2E17084824003E99ED /* csfml_render.c in Sources */,
 				EEE90A3D17084952003E99ED /* vector.c in Sources */,
 				EEE90A3F17084963003E99ED /* color.c in Sources */,
 				EEE90A4117084976003E99ED /* object.c in Sources */,
@@ -200,6 +210,8 @@
 				EEE90A541709EA47003E99ED /* camera.c in Sources */,
 				EEE90A571709F435003E99ED /* ray.c in Sources */,
 				EEABEDF21712E9AD00EAFC69 /* mesh.c in Sources */,
+				EEABEE3A1719AECC00EAFC69 /* png_render.c in Sources */,
+				EEABEE3E1719B20500EAFC69 /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +235,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_FAST_MATH = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -243,6 +256,7 @@
 					"-lcsfml-graphics",
 					"-lcsfml-window",
 					"-lcsfml-system",
+					"-lPNG",
 				);
 				PRODUCT_NAME = raytracer;
 				SDKROOT = macosx;
@@ -266,6 +280,7 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_FAST_MATH = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_STRICT_ALIASING = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -280,6 +295,7 @@
 					"-lcsfml-graphics",
 					"-lcsfml-window",
 					"-lcsfml-system",
+					"-lPNG",
 				);
 				PRODUCT_NAME = raytracer;
 				SDKROOT = macosx;

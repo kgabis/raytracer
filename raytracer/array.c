@@ -10,7 +10,7 @@
 #include <string.h>
 #include "array.h"
 
-Array *array_init(Array *a, size_t itemSize, size_t initialCapacity) {
+Array *array_init(Array *a, unsigned int itemSize, unsigned int initialCapacity) {
     if (initialCapacity == 0) {
         initialCapacity = 1; // Idiot-proof
     }
@@ -27,7 +27,7 @@ Array *array_init(Array *a, size_t itemSize, size_t initialCapacity) {
 
 int array_add(Array *a, void *item) {
     void *reallocPtr;
-    size_t newCapacity, memOffset;
+    unsigned int newCapacity, memOffset;
     if (a->count >= a->capacity) {
         newCapacity = a->capacity * 2;
         reallocPtr = realloc(a->items, newCapacity * a->itemSize);
@@ -44,7 +44,7 @@ int array_add(Array *a, void *item) {
 }
 
 int array_addArray(Array *array, const Array *toAdd) {
-    size_t i;
+    unsigned int i;
     for (i = 0; i < toAdd->count; i++) {
         if (!array_add(array, array_get(toAdd, i))) {
             return 0;
@@ -53,18 +53,18 @@ int array_addArray(Array *array, const Array *toAdd) {
     return 1;
 }
 
-void* array_getSafe(const Array *a, size_t index) {
+void* array_getSafe(const Array *a, unsigned int index) {
     if (index >= a->count) {
         return NULL;
     }
     return a->items + (index * a->itemSize);
 }
 
-void* array_get(const Array *a, size_t index) {
+void* array_get(const Array *a, unsigned int index) {
     return a->items + (index * a->itemSize);
 }
 
-void array_remove(Array *a, size_t index) {
+void array_remove(Array *a, unsigned int index) {
     void *itemToRemove, *itemToMove;
     if (index >= a->count) {
         return;

@@ -149,12 +149,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/main.c"
-         timestampString = "387211497.504114"
+         timestampString = "387565191.565252"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "22"
-         endingLineNumber = "22"
-         landmarkName = "draw()"
+         startingLineNumber = "58"
+         endingLineNumber = "58"
+         landmarkName = "main()"
          landmarkType = "7">
       </FileBreakpoint>
       <FileBreakpoint
@@ -162,12 +162,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/main.c"
-         timestampString = "387295936.098568"
+         timestampString = "387565191.565252"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "28"
-         endingLineNumber = "28"
-         landmarkName = "draw()"
+         startingLineNumber = "64"
+         endingLineNumber = "64"
+         landmarkName = "main()"
          landmarkType = "7">
       </FileBreakpoint>
       <FileBreakpoint
@@ -175,12 +175,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/main.c"
-         timestampString = "387211497.504114"
+         timestampString = "387565191.565252"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "26"
-         endingLineNumber = "26"
-         landmarkName = "draw()"
+         startingLineNumber = "62"
+         endingLineNumber = "62"
+         landmarkName = "main()"
          landmarkType = "7">
       </FileBreakpoint>
       <FileBreakpoint
@@ -379,11 +379,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/main.c"
-         timestampString = "387295936.098568"
+         timestampString = "387565191.565252"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "46"
-         endingLineNumber = "46"
+         startingLineNumber = "82"
+         endingLineNumber = "82"
          landmarkName = "main()"
          landmarkType = "7">
       </FileBreakpoint>
@@ -424,6 +424,19 @@
          startingLineNumber = "213"
          endingLineNumber = "213"
          landmarkName = "ray_checkSphereIntersection_2()"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "raytracer/csfml_main.c"
+         timestampString = "387565191.565252"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "66"
+         endingLineNumber = "66"
+         landmarkName = "csfml_render()"
          landmarkType = "7">
       </FileBreakpoint>
    </FileBreakpoints>

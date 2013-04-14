@@ -13,17 +13,17 @@
 
 typedef struct {
     unsigned char *items;
-    size_t itemSize;
-    size_t count;
-    size_t capacity;
+    unsigned int itemSize;
+    unsigned int count;
+    unsigned int capacity;
 } Array;
 
-Array *array_init(Array *array, size_t itemSize, size_t initialCapacity);
+Array *array_init(Array *array, unsigned int itemSize, unsigned int initialCapacity);
 int array_add(Array *array, void *item); // 1 on success
 int array_addArray(Array *array, const Array *toAdd);
-void* array_getSafe(const Array *a, size_t index);
-void* array_get(const Array *array, size_t index);
-void array_remove(Array *array, size_t index);
+void* array_getSafe(const Array *a, unsigned int index);
+void* array_get(const Array *array, unsigned int index);
+void array_remove(Array *array, unsigned int index);
 void array_dealloc(Array *array);
 
 #endif

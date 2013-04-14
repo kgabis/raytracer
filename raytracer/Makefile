@@ -1,11 +1,17 @@
 CC = gcc
-CFLAGS = -O3 -Wall -lcsfml-graphics -lcsfml-window -lcsfml-system  -lpthread -std=gnu99
+CFLAGS = -O3 -Wall -std=gnu99
 
-mac: 
-	$(CC) $(CFLAGS) *.c -o raytracer
+UNAME := $(shell uname)
 
-linux:
-	$(CC) $(CFLAGS) -lm *.c -o raytracer
+ifeq ($(UNAME), Linux)
+  CFLAGS += -lm
+endif
 
+.PHONY: clean
+
+with_libpng:
+	$(CC)  *.c -o raytracer $(CFLAGS) -lPNG -DPNG
+with_csfml:: 
+	$(CC)  *.c -o raytracer $(CFLAGS) -lcsfml-graphics -lcsfml-window -lcsfml-system
 clean:
-	rm -f *.o
+	rm -f *.o raytracer
