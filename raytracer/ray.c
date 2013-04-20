@@ -16,10 +16,12 @@
 #define MAX_RECURSION_DEPTH 4
 #define MAX_VISIBLE_DISTANCE 600.0
 
+#define EPSILON 0.000001
+
 typedef struct {
     int hit;
     Color color;
-    const Object *object;
+    const Surface *surface;
     double distance;
 } TracingResult;
 
@@ -28,17 +30,17 @@ typedef struct {
     double specular;
 } ShadingResult;
 
-static Ray ray_addNoise(Ray ray, double epsilon);
-static Ray ray_reflect(Ray ray, const Object *object, Vector3 point);
+static Ray ray_addNoise(Ray ray, double magnitude);
+static Ray ray_reflect(Ray ray, const Surface *surface, Vector3 point);
 static Color ray_traceRecursive(Ray ray, const Scene *scene, size_t depth);
 static TracingResult ray_traceOnce(Ray ray, const Scene *scene);
-static TracingResult ray_checkIntersection(Ray ray, const Object *object);
+static TracingResult ray_checkIntersection(Ray ray, const Surface *surface);
 //static TracingResult ray_checkSphereIntersection_1(Ray ray, const Sphere *sphere);
 static TracingResult ray_checkSphereIntersection_2(Ray ray, const Sphere *sphere);
 static TracingResult ray_checkTriangleIntersectionWithCulling(Ray ray, const Triangle *triangle);
 //static TracingResult ray_checkTriangleIntersectionNoCulling(Ray ray, const Triangle *triangle);
 
-static ShadingResult ray_shadeAtPoint(Ray ray, const Scene *scene, const Object *object, Vector3 point);
+static ShadingResult ray_shadeAtPoint(Ray ray, const Scene *scene, const Surface *surface, Vector3 point);
 static Color getHighlightedColor(Color color, ShadingResult highlight, double ambientCoef);
 
 Ray ray_make(Vector3 origin, Vector3 direction) {
@@ -69,21 +71,18 @@ static Color ray_traceRecursive(Ray ray, const Scene *scene, size_t depth) {
         return closestHit.color;
     }
     Vector3 collisionPoint = vec3_add(vec3_mult(ray.direction, closestHit.distance), ray.origin);
-    ShadingResult shadingResult = ray_shadeAtPoint(ray, scene, closestHit.object, collisionPoint);
-
-    closestHit.color = getHighlightedColor(closestHit.color, shadingResult, scene->ambientCoefficient);
-    
-    Material material = closestHit.object->material;
+    Material material = closestHit.surface->material;
     if (material.reflectivity > 0.0 && depth > 0) {
-        Ray reflectedRay = ray_reflect(ray, closestHit.object, collisionPoint);
+        Ray reflectedRay = ray_reflect(ray, closestHit.surface, collisionPoint);
         if (material.reflectionNoise > 0) {
             reflectedRay = ray_addNoise(reflectedRay, material.reflectionNoise);
         }
         Color reflectionColor = ray_traceRecursive(reflectedRay, scene, depth - 1);
         closestHit.color = color_blend(reflectionColor, material.reflectivity, closestHit.color);
     }
+    ShadingResult shadingResult = ray_shadeAtPoint(ray, scene, closestHit.surface, collisionPoint);    
+    closestHit.color = getHighlightedColor(closestHit.color, shadingResult, scene->ambientCoefficient);
     closestHit.color = color_mult(closestHit.color, (MAX_VISIBLE_DISTANCE - closestHit.distance) / MAX_VISIBLE_DISTANCE);
-
     return closestHit.color;
 }
 
@@ -93,17 +92,17 @@ static TracingResult ray_traceOnce(Ray ray, const Scene *scene) {
     closestHit.hit = 0;
     closestHit.color = scene->backgroundColor;
     closestHit.distance = 1.0 / 0.0; // infinity
-    for (size_t i = 0; i < scene->objects.count; i++) {
-        Object *object = ARRAY_GET(&scene->objects, i);
-        currentHit = ray_checkIntersection(ray, object);
-        if (currentHit.hit && currentHit.distance < closestHit.distance && currentHit.distance >= 0) {
+    for (size_t i = 0; i < scene->surfaces.count; i++) {
+        Surface *surface = ARRAY_GET(&scene->surfaces, i);
+        currentHit = ray_checkIntersection(ray, surface);
+        if (currentHit.hit && currentHit.distance < closestHit.distance && currentHit.distance >= EPSILON) {
             closestHit = currentHit;
         }
     }
     return closestHit;
 }
 
-static ShadingResult ray_shadeAtPoint(Ray ray, const Scene *scene, const Object *object, Vector3 point) {
+static ShadingResult ray_shadeAtPoint(Ray ray, const Scene *scene, const Surface *surface, Vector3 point) {
     size_t i;
     Light *light;
     ShadingResult shadingResult;
@@ -121,11 +120,11 @@ static ShadingResult ray_shadeAtPoint(Ray ray, const Scene *scene, const Object 
         lightDistance = vec3_length(vec3_sub(light->position, point));
         shadowTracingResult = ray_traceOnce(newRay, scene);
         if (!shadowTracingResult.hit || shadowTracingResult.distance > lightDistance) {
-            Vector3 normal = object_getNormalAtPoint(object, point);
+            Vector3 normal = surface_getNormalAtPoint(surface, point);
             shadingResult.diffused += light_getDiffusedHighlight(light, lightDirection, normal);
             shadingResult.specular += light_getSpecularHighlight(light, lightDirection,
                                                                  normal, ray.direction,
-                                                                 object->material.specularity);
+                                                                 surface->material.specularity);
         }
     }
     return shadingResult;
@@ -142,26 +141,26 @@ static Ray ray_addNoise(Ray ray, double epsilon) {
     return ray;
 }
 
-static Ray ray_reflect(Ray ray, const Object *object, Vector3 point) {
-    Vector3 N = object_getNormalAtPoint(object, point);
+static Ray ray_reflect(Ray ray, const Surface *surface, Vector3 point) {
+    Vector3 N = surface_getNormalAtPoint(surface, point);
     double c1 = - vec3_dot(N, ray.direction);
     Vector3 RI = vec3_add(ray.direction, vec3_mult(N, 2 * c1));
     return ray_make(point, RI);
 }
 
-static TracingResult ray_checkIntersection(Ray ray, const Object *object) {
+static TracingResult ray_checkIntersection(Ray ray, const Surface *surface) {
     TracingResult result;
     result.hit = 0;
-    switch (object->type) {
+    switch (surface->type) {
         case GTSphere:
-            result = ray_checkSphereIntersection_2(ray, &object->geometry.sphere);
-            result.object = object;
-            result.color = object->material.color;
+            result = ray_checkSphereIntersection_2(ray, &surface->geometry.sphere);
+            result.surface = surface;
+            result.color = surface->material.color;
             break;
         case GTTriangle:
-            result = ray_checkTriangleIntersectionWithCulling(ray, &object->geometry.triangle);
-            result.object = object;
-            result.color = object->material.color;
+            result = ray_checkTriangleIntersectionWithCulling(ray, &surface->geometry.triangle);
+            result.surface = surface;
+            result.color = surface->material.color;
             break;
         default:
             break;

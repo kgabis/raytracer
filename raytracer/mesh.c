@@ -10,7 +10,7 @@
 #include <string.h>
 
 #include "mesh.h"
-#include "object.h"
+#include "surface.h"
 #include "utils.h"
 
 #define LINE_SIZE 128
@@ -26,13 +26,13 @@ Array mesh_load(const char *filename, Material material) {
     FILE *fp;
     char line[LINE_SIZE];
     array_init(&vertices, sizeof(Vector3), 1500);
-    array_init(&triangles, sizeof(Object), 1500);
+    array_init(&triangles, sizeof(Surface), 1500);
     double x, y, z;
     size_t vNums[3];
     Vector3 *face[3];
     int parseStatus = FSHeader;
     int sscanfResult;
-    Object faceObject;
+    Surface faceSurface;
     fp = fopen(filename, "r");
     if (fp == NULL) {
         goto fp_error;
@@ -64,8 +64,8 @@ Array mesh_load(const char *filename, Material material) {
                 face[0] = ARRAY_GET(&vertices, vNums[0]);
                 face[1] = ARRAY_GET(&vertices, vNums[1]);
                 face[2] = ARRAY_GET(&vertices, vNums[2]);
-                faceObject = object_initTriangle(*face[0], *face[1], *face[2], material);
-                array_add(&triangles, &faceObject);
+                faceSurface = surface_initTriangle(*face[0], *face[1], *face[2], material);
+                array_add(&triangles, &faceSurface);
                 break;
             default:
                 goto error;
@@ -82,6 +82,6 @@ error:
 fp_error:
     array_dealloc(&vertices);
     array_dealloc(&triangles);
-    array_init(&triangles, sizeof(Object), 1);
+    array_init(&triangles, sizeof(Surface), 1);
     return triangles;
 }

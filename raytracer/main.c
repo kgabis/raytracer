@@ -42,5 +42,5 @@ int main(int argc, const char *argv[]) {
     csfml_render(&rt);
 #endif
     raytracer_dealloc(&rt);
-    
+    return 0;    
 }

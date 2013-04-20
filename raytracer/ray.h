@@ -11,7 +11,7 @@
 
 #include "vector.h"
 #include "color.h"
-#include "object.h"
+#include "surface.h"
 #include "scene.h"
 #include "camera.h"
 

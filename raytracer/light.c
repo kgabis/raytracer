@@ -15,7 +15,8 @@
 
 Light light_make(Vector3 position, double intensity) {
     Light l;
-    l.position = position, l.intensity = intensity;
+    l.position = position;
+    l.intensity = intensity;
     return l;
 }
 

@@ -12,11 +12,11 @@
 #include "array.h"
 #include "camera.h"
 #include "color.h"
-#include "object.h"
+#include "surface.h"
 #include "light.h"
 
 typedef struct {
-    Array objects;
+    Array surfaces;
     Array lights;
     double ambientCoefficient;
     Camera camera;
@@ -30,8 +30,8 @@ void scene_loadSnowmanDemo(Scene *scene);
 void scene_loadMesh(Scene *scene, const char *filename, Material meshMaterial);
 void scene_AddLight(Scene *scene, Light *light);
 void scene_AddLightRange(Scene *scene, Light *lights, size_t len);
-void scene_addObject(Scene *scene, Object *object);
-void scene_addObjectRange(Scene *scene, Object *objects, size_t len);
+void scene_addSurface(Scene *scene, Surface *surface);
+void scene_addSurfaceRange(Scene *scene, Surface *surfaces, size_t len);
 void scene_dealloc(Scene *scene);
 
 #endif

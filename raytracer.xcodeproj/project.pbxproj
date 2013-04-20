@@ -14,7 +14,7 @@
 		EEE90A3017084824003E99ED /* raytracer.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = EEE90A2F17084824003E99ED /* raytracer.1 */; };
 		EEE90A3D17084952003E99ED /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A3C17084952003E99ED /* vector.c */; };
 		EEE90A3F17084963003E99ED /* color.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A3E17084963003E99ED /* color.c */; };
-		EEE90A4117084976003E99ED /* object.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4017084976003E99ED /* object.c */; };
+		EEE90A4117084976003E99ED /* surface.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4017084976003E99ED /* surface.c */; };
 		EEE90A4417084995003E99ED /* raytracer.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4317084995003E99ED /* raytracer.c */; };
 		EEE90A4617085E6A003E99ED /* material.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A4517085E6A003E99ED /* material.c */; };
 		EEE90A48170887BD003E99ED /* geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = EEE90A47170887BC003E99ED /* geometry.c */; };
@@ -49,14 +49,14 @@
 		EEE90A2A17084824003E99ED /* raytracer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = raytracer; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEE90A2D17084824003E99ED /* csfml_render.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = csfml_render.c; sourceTree = "<group>"; };
 		EEE90A2F17084824003E99ED /* raytracer.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = raytracer.1; sourceTree = "<group>"; };
-		EEE90A371708490A003E99ED /* object.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = object.h; sourceTree = "<group>"; };
+		EEE90A371708490A003E99ED /* surface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = surface.h; sourceTree = "<group>"; };
 		EEE90A3817084913003E99ED /* vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
 		EEE90A391708491E003E99ED /* color.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = color.h; sourceTree = "<group>"; };
 		EEE90A3A1708492E003E99ED /* geometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = geometry.h; sourceTree = "<group>"; };
 		EEE90A3B1708493A003E99ED /* material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = material.h; sourceTree = "<group>"; };
 		EEE90A3C17084952003E99ED /* vector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vector.c; sourceTree = "<group>"; };
 		EEE90A3E17084963003E99ED /* color.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = color.c; sourceTree = "<group>"; };
-		EEE90A4017084976003E99ED /* object.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = object.c; sourceTree = "<group>"; };
+		EEE90A4017084976003E99ED /* surface.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = surface.c; sourceTree = "<group>"; };
 		EEE90A4217084986003E99ED /* raytracer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = raytracer.h; sourceTree = "<group>"; };
 		EEE90A4317084995003E99ED /* raytracer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = raytracer.c; sourceTree = "<group>"; };
 		EEE90A4517085E6A003E99ED /* material.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = material.c; sourceTree = "<group>"; };
@@ -119,8 +119,8 @@
 		EEE90A36170848E8003E99ED /* basic_types */ = {
 			isa = PBXGroup;
 			children = (
-				EEE90A371708490A003E99ED /* object.h */,
-				EEE90A4017084976003E99ED /* object.c */,
+				EEE90A371708490A003E99ED /* surface.h */,
+				EEE90A4017084976003E99ED /* surface.c */,
 				EEE90A3817084913003E99ED /* vector.h */,
 				EEE90A3C17084952003E99ED /* vector.c */,
 				EEE90A391708491E003E99ED /* color.h */,
@@ -200,7 +200,7 @@
 				EEE90A2E17084824003E99ED /* csfml_render.c in Sources */,
 				EEE90A3D17084952003E99ED /* vector.c in Sources */,
 				EEE90A3F17084963003E99ED /* color.c in Sources */,
-				EEE90A4117084976003E99ED /* object.c in Sources */,
+				EEE90A4117084976003E99ED /* surface.c in Sources */,
 				EEE90A4417084995003E99ED /* raytracer.c in Sources */,
 				EEE90A4617085E6A003E99ED /* material.c in Sources */,
 				EEE90A48170887BD003E99ED /* geometry.c in Sources */,

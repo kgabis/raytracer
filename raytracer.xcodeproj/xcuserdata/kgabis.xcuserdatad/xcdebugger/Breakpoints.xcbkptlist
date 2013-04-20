@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/color.c"
-         timestampString = "387112666.874891"
+         timestampString = "387657633.35962"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "26"
-         endingLineNumber = "26"
+         startingLineNumber = "21"
+         endingLineNumber = "21"
          landmarkName = "color_makeFromRGB()"
          landmarkType = "7">
       </FileBreakpoint>
@@ -21,25 +21,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/color.c"
-         timestampString = "387112713.231312"
+         timestampString = "387657633.35962"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "44"
-         endingLineNumber = "44"
+         startingLineNumber = "38"
+         endingLineNumber = "38"
          landmarkName = "color_makeFromRGBhex()"
-         landmarkType = "7">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "raytracer/color.c"
-         timestampString = "387112666.874891"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "22"
-         endingLineNumber = "22"
-         landmarkName = "color_makeFromRGBA()"
          landmarkType = "7">
       </FileBreakpoint>
       <FileBreakpoint
@@ -73,22 +60,22 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/scene.c"
-         timestampString = "387212294.341142"
+         timestampString = "388138247.375877"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "190"
-         endingLineNumber = "190">
+         startingLineNumber = "188"
+         endingLineNumber = "188">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/color.c"
-         timestampString = "387112713.231312"
+         timestampString = "387657633.35962"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "34"
-         endingLineNumber = "34"
+         startingLineNumber = "29"
+         endingLineNumber = "29"
          landmarkName = "color_addWeighted()"
          landmarkType = "7">
       </FileBreakpoint>
@@ -135,27 +122,12 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "raytracer/color.c"
-         timestampString = "387112713.231312"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "53"
-         endingLineNumber = "53"
-         landmarkName = "color_mult()"
-         landmarkType = "7">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "raytracer/main.c"
          timestampString = "387565191.565252"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "58"
-         endingLineNumber = "58"
-         landmarkName = "main()"
-         landmarkType = "7">
+         endingLineNumber = "58">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -166,9 +138,7 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "64"
-         endingLineNumber = "64"
-         landmarkName = "main()"
-         landmarkType = "7">
+         endingLineNumber = "64">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -179,9 +149,7 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "62"
-         endingLineNumber = "62"
-         landmarkName = "main()"
-         landmarkType = "7">
+         endingLineNumber = "62">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -201,11 +169,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/ray.c"
-         timestampString = "387375043.409428"
+         timestampString = "388139123.105537"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "227"
-         endingLineNumber = "227"
+         startingLineNumber = "226"
+         endingLineNumber = "226"
          landmarkName = "ray_checkTriangleIntersectionWithCulling()"
          landmarkType = "7">
       </FileBreakpoint>
@@ -218,20 +186,18 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "23"
-         endingLineNumber = "23"
-         landmarkName = "light_getDirection()"
-         landmarkType = "7">
+         endingLineNumber = "23">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/ray.c"
-         timestampString = "387375043.409428"
+         timestampString = "388139123.105537"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "131"
-         endingLineNumber = "131"
+         startingLineNumber = "130"
+         endingLineNumber = "130"
          landmarkName = "ray_shadeAtPoint()"
          landmarkType = "7">
       </FileBreakpoint>
@@ -246,19 +212,6 @@
          startingLineNumber = "43"
          endingLineNumber = "43"
          landmarkName = "light_getSpecularHighlight()"
-         landmarkType = "7">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "raytracer/ray.c"
-         timestampString = "387375043.409428"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "74"
-         endingLineNumber = "74"
-         landmarkName = "ray_traceRecursive()"
          landmarkType = "7">
       </FileBreakpoint>
       <FileBreakpoint
@@ -318,22 +271,22 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/ray.c"
-         timestampString = "387295936.098568"
+         timestampString = "388138033.862177"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "62"
-         endingLineNumber = "62">
+         startingLineNumber = "64"
+         endingLineNumber = "64">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/ray.c"
-         timestampString = "387375043.409428"
+         timestampString = "388138033.862177"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "71"
-         endingLineNumber = "71"
+         startingLineNumber = "73"
+         endingLineNumber = "73"
          landmarkName = "ray_traceRecursive()"
          landmarkType = "7">
       </FileBreakpoint>
@@ -342,11 +295,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/ray.c"
-         timestampString = "387295936.098568"
+         timestampString = "388138033.862177"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "67"
-         endingLineNumber = "67"
+         startingLineNumber = "69"
+         endingLineNumber = "69"
          landmarkName = "ray_traceRecursive()"
          landmarkType = "7">
       </FileBreakpoint>
@@ -355,11 +308,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/ray.c"
-         timestampString = "387375043.409428"
+         timestampString = "388139123.105537"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "97"
-         endingLineNumber = "97"
+         startingLineNumber = "96"
+         endingLineNumber = "96"
          landmarkName = "ray_traceOnce()"
          landmarkType = "7">
       </FileBreakpoint>
@@ -383,29 +336,14 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "82"
-         endingLineNumber = "82"
-         landmarkName = "main()"
-         landmarkType = "7">
+         endingLineNumber = "82">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/ray.c"
-         timestampString = "387375043.409428"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "214"
-         endingLineNumber = "214"
-         landmarkName = "ray_checkSphereIntersection_2()"
-         landmarkType = "7">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "raytracer/ray.c"
-         timestampString = "387375043.409428"
+         timestampString = "388139123.105537"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "213"
@@ -418,11 +356,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "raytracer/ray.c"
-         timestampString = "387375043.409428"
+         timestampString = "388139123.105537"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "213"
-         endingLineNumber = "213"
+         startingLineNumber = "212"
+         endingLineNumber = "212"
+         landmarkName = "ray_checkSphereIntersection_2()"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "raytracer/ray.c"
+         timestampString = "388139123.105537"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "212"
+         endingLineNumber = "212"
          landmarkName = "ray_checkSphereIntersection_2()"
          landmarkType = "7">
       </FileBreakpoint>
