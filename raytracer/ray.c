@@ -30,17 +30,17 @@ typedef struct {
     double specular;
 } ShadingResult;
 
-static Ray ray_addNoise(Ray ray, double magnitude);
-static Ray ray_reflect(Ray ray, const Surface *surface, Vector3 point);
-static Color ray_traceRecursive(Ray ray, const Scene *scene, size_t depth);
-static TracingResult ray_traceOnce(Ray ray, const Scene *scene);
-static TracingResult ray_checkIntersection(Ray ray, const Surface *surface);
-static TracingResult ray_checkSphereIntersection_1(Ray ray, const Sphere *sphere);
-static TracingResult ray_checkSphereIntersection_2(Ray ray, const Sphere *sphere);
-static TracingResult ray_checkTriangleIntersectionWithCulling(Ray ray, const Triangle *triangle);
-//static TracingResult ray_checkTriangleIntersectionNoCulling(Ray ray, const Triangle *triangle);
+static Ray ray_addNoise(const Ray *ray, double magnitude);
+static Ray ray_reflect(const Ray *ray, const Surface *surface, Vector3 point);
+static Color ray_traceRecursive(const Ray *ray, const Scene *scene, size_t depth);
+static TracingResult ray_traceOnce(const Ray *ray, const Scene *scene);
+static TracingResult ray_checkIntersection(const Ray *ray, const Surface *surface);
+static TracingResult ray_checkSphereIntersection_1(const Ray *ray, const Sphere *sphere);
+static TracingResult ray_checkSphereIntersection_2(const Ray *ray, const Sphere *sphere);
+static TracingResult ray_checkTriangleIntersectionWithCulling(const Ray *ray, const Triangle *triangle);
+//static TracingResult ray_checkTriangleIntersectionNoCulling(const Ray *ray, const Triangle *triangle);
 
-static ShadingResult ray_shadeAtPoint(Ray ray, const Scene *scene, const Surface *surface, Vector3 point);
+static ShadingResult ray_shadeAtPoint(const Ray *ray, const Scene *scene, const Surface *surface, Vector3 point);
 static Color getHighlightedColor(Color color, ShadingResult highlight, double ambientCoef);
 
 Ray ray_make(Vector3 origin, Vector3 direction) {
@@ -60,23 +60,23 @@ Ray ray_makeForPixel(const Camera *c, size_t x, size_t y) {
     return ray_make(c->position, u_r);
 }
 
-Color ray_trace(Ray ray, const Scene *scene) {
+Color ray_trace(const Ray *ray, const Scene *scene) {
     return ray_traceRecursive(ray, scene, MAX_RECURSION_DEPTH);
 }
 
-static Color ray_traceRecursive(Ray ray, const Scene *scene, size_t depth) {
+static Color ray_traceRecursive(const Ray *ray, const Scene *scene, size_t depth) {
     TracingResult closestHit = ray_traceOnce(ray, scene);
     if (!closestHit.hit) {
         return closestHit.color;
     }
-    Vector3 collisionPoint = vec3_add(vec3_mult(ray.direction, closestHit.distance), ray.origin);
+    Vector3 collisionPoint = vec3_add(vec3_mult(ray->direction, closestHit.distance), ray->origin);
     Material material = closestHit.surface->material;
     if (material.reflectivity > 0.0 && depth > 0) {
         Ray reflectedRay = ray_reflect(ray, closestHit.surface, collisionPoint);
         if (material.reflectionNoise > 0) {
-            reflectedRay = ray_addNoise(reflectedRay, material.reflectionNoise);
+            reflectedRay = ray_addNoise(&reflectedRay, material.reflectionNoise);
         }
-        Color reflectionColor = ray_traceRecursive(reflectedRay, scene, depth - 1);
+        Color reflectionColor = ray_traceRecursive(&reflectedRay, scene, depth - 1);
         closestHit.color = color_blend(reflectionColor, material.reflectivity, closestHit.color);
     }
     ShadingResult shadingResult = ray_shadeAtPoint(ray, scene, closestHit.surface, collisionPoint);    
@@ -85,7 +85,7 @@ static Color ray_traceRecursive(Ray ray, const Scene *scene, size_t depth) {
     return closestHit.color;
 }
 
-static TracingResult ray_traceOnce(Ray ray, const Scene *scene) {
+static TracingResult ray_traceOnce(const Ray *ray, const Scene *scene) {
     TracingResult closestHit;
     TracingResult currentHit;
     closestHit.hit = 0;
@@ -101,7 +101,7 @@ static TracingResult ray_traceOnce(Ray ray, const Scene *scene) {
     return closestHit;
 }
 
-static ShadingResult ray_shadeAtPoint(Ray ray, const Scene *scene, const Surface *surface, Vector3 point) {
+static ShadingResult ray_shadeAtPoint(const Ray *ray, const Scene *scene, const Surface *surface, Vector3 point) {
     size_t i;
     Light *light;
     ShadingResult shadingResult;
@@ -117,37 +117,38 @@ static ShadingResult ray_shadeAtPoint(Ray ray, const Scene *scene, const Surface
         lightDirection = light_getDirection(light, point);
         newRay.direction = vec3_negate(lightDirection);
         lightDistance = vec3_length(vec3_sub(light->position, point));
-        shadowTracingResult = ray_traceOnce(newRay, scene);
+        shadowTracingResult = ray_traceOnce(&newRay, scene);
         if (!shadowTracingResult.hit || shadowTracingResult.distance > lightDistance) {
             Vector3 normal = surface_getNormalAtPoint(surface, point);
             shadingResult.diffused += light_getDiffusedHighlight(light, lightDirection, normal);
             shadingResult.specular += light_getSpecularHighlight(light, lightDirection,
-                                                                 normal, ray.direction,
+                                                                 normal, ray->direction,
                                                                  surface->material.specularity);
         }
     }
     return shadingResult;
 }
 
-static Ray ray_addNoise(Ray ray, double epsilon) {
+static Ray ray_addNoise(const Ray *ray, double epsilon) {
     double r = (((double)rand()/RAND_MAX) * 2 * epsilon) - epsilon;
-    ray.direction.x += r;
+    Ray newRay;
+    newRay.direction.x += r;
     r = (((double)rand()/RAND_MAX) * 2 * epsilon) - epsilon;
-    ray.direction.y += r;
+    newRay.direction.y += r;
     r = (((double)rand()/RAND_MAX) * 2 * epsilon) - epsilon;
-    ray.direction.z += r;
-    ray.direction = vec3_unit(ray.direction);
-    return ray;
+    newRay.direction.z += r;
+    newRay.direction = vec3_unit(ray->direction);
+    return newRay;
 }
 
-static Ray ray_reflect(Ray ray, const Surface *surface, Vector3 point) {
+static Ray ray_reflect(const Ray *ray, const Surface *surface, Vector3 point) {
     Vector3 N = surface_getNormalAtPoint(surface, point);
-    double c1 = - vec3_dot(N, ray.direction);
-    Vector3 RI = vec3_add(ray.direction, vec3_mult(N, 2 * c1));
+    double c1 = - vec3_dot(N, ray->direction);
+    Vector3 RI = vec3_add(ray->direction, vec3_mult(N, 2 * c1));
     return ray_make(point, RI);
 }
 
-static TracingResult ray_checkIntersection(Ray ray, const Surface *surface) {
+static TracingResult ray_checkIntersection(const Ray *ray, const Surface *surface) {
     TracingResult result;
     result.hit = 0;
     switch (surface->type) {
@@ -168,11 +169,11 @@ static TracingResult ray_checkIntersection(Ray ray, const Surface *surface) {
 }
 
 // http://www.cs.unc.edu/~rademach/xroads-RT/RTarticle.html
-static TracingResult ray_checkSphereIntersection_1(Ray ray, const Sphere *s) {
+static TracingResult ray_checkSphereIntersection_1(const Ray *ray, const Sphere *s) {
     TracingResult result;
     result.hit = 0;
-    Vector3 EO = vec3_sub(s->center, ray.origin);
-    double v = vec3_dot(EO, ray.direction);
+    Vector3 EO = vec3_sub(s->center, ray->origin);
+    double v = vec3_dot(EO, ray->direction);
     if (v < 0) {
         return result;
     }
@@ -188,12 +189,12 @@ static TracingResult ray_checkSphereIntersection_1(Ray ray, const Sphere *s) {
 }
 
 // http://www.cs.princeton.edu/courses/archive/fall00/cs426/lectures/raycast/sld013.htm
-static TracingResult ray_checkSphereIntersection_2(Ray ray, const Sphere *s) {
+static TracingResult ray_checkSphereIntersection_2(const Ray *ray, const Sphere *s) {
     TracingResult result;
     result.hit = 0;
     Vector3 O = s->center;
-    Vector3 P_0 = ray.origin;
-    Vector3 V = ray.direction;
+    Vector3 P_0 = ray->origin;
+    Vector3 V = ray->direction;
     Vector3 L;
     VEC3_SUB(L, O, P_0);
     double t_ca = VEC3_DOT(L, V);
@@ -214,24 +215,24 @@ static TracingResult ray_checkSphereIntersection_2(Ray ray, const Sphere *s) {
 }
 
 // http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf
-static TracingResult ray_checkTriangleIntersectionWithCulling(Ray ray, const Triangle *t) {
+static TracingResult ray_checkTriangleIntersectionWithCulling(const Ray *ray, const Triangle *t) {
     Vector3 pvec, tvec, qvec;
     TracingResult result;
     result.hit = 0;
-    VEC3_CROSS(pvec, ray.direction, t->edges[0]);
+    VEC3_CROSS(pvec, ray->direction, t->edges[0]);
     double det = VEC3_DOT(t->edges[1], pvec);
 #define EPSILON 0.000001
     if (det < EPSILON) {
         return result;
     }
 #undef EPSILON
-    VEC3_SUB(tvec, ray.origin, t->a);
+    VEC3_SUB(tvec, ray->origin, t->a);
     double u = VEC3_DOT(tvec, pvec);
     if (u < 0.0 || u > det) {
         return result;
     }
     VEC3_CROSS(qvec, tvec, t->edges[1]);
-    double v = VEC3_DOT(ray.direction, qvec);
+    double v = VEC3_DOT(ray->direction, qvec);
     if (v < 0.0 || u + v > det) {
         return result;
     }
@@ -245,7 +246,7 @@ static TracingResult ray_checkTriangleIntersectionWithCulling(Ray ray, const Tri
     return result;
 }
 
-//static TracingResult ray_checkTriangleIntersectionNoCulling(Ray ray, const Triangle *t) {
+//static TracingResult ray_checkTriangleIntersectionNoCulling(const Ray *ray, const Triangle *t) {
 //    TracingResult result;
 //    result.hit = 0;
 //    Vector3 pvec, tvec, qvec;

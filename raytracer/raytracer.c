@@ -22,7 +22,7 @@ void raytracer_render(Raytracer *rt, DrawFunction draw, void *data) {
     for (size_t x = 0; x < rt->resolutionX; x++) {
         for (size_t y = 0; y < rt->resolutionY; y++) {
             Ray ray = ray_makeForPixel(&rt->scene.camera, x, y);
-            Color color = ray_trace(ray, &rt->scene);
+            Color color = ray_trace(&ray, &rt->scene);
             draw(data, color, x, y);
         }
     }
