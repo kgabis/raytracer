@@ -19,8 +19,6 @@
 #define EPSILON 0.000001
 
 typedef struct {
-    int hit;
-    Color color;
     const Surface *surface;
     double distance;
 } TracingResult;
@@ -34,11 +32,9 @@ static Ray ray_addNoise(const Ray *ray, double magnitude);
 static Ray ray_reflect(const Ray *ray, const Surface *surface, Vector3 point);
 static Color ray_traceRecursive(const Ray *ray, const Scene *scene, size_t depth);
 static TracingResult ray_traceOnce(const Ray *ray, const Scene *scene);
-static TracingResult ray_checkIntersection(const Ray *ray, const Surface *surface);
-static TracingResult ray_checkSphereIntersection_1(const Ray *ray, const Sphere *sphere);
-static TracingResult ray_checkSphereIntersection_2(const Ray *ray, const Sphere *sphere);
-static TracingResult ray_checkTriangleIntersectionWithCulling(const Ray *ray, const Triangle *triangle);
-//static TracingResult ray_checkTriangleIntersectionNoCulling(const Ray *ray, const Triangle *triangle);
+static int ray_checkIntersection(const Ray *ray, const Surface *surface, double *distance);
+static int ray_checkSphereIntersection(const Ray *ray, const Sphere *sphere, double *distance);
+static int ray_checkTriangleIntersection(const Ray *ray, const Triangle *triangle, double *distance);
 
 static ShadingResult ray_shadeAtPoint(const Ray *ray, const Scene *scene, const Surface *surface, Vector3 point);
 static Color getHighlightedColor(Color color, ShadingResult highlight, double ambientCoef);
@@ -66,9 +62,11 @@ Color ray_trace(const Ray *ray, const Scene *scene) {
 
 static Color ray_traceRecursive(const Ray *ray, const Scene *scene, size_t depth) {
     TracingResult closestHit = ray_traceOnce(ray, scene);
-    if (!closestHit.hit) {
-        return closestHit.color;
+    Color resultColor;
+    if (closestHit.surface == NULL) {
+        return scene->backgroundColor;
     }
+    resultColor = closestHit.surface->material.color;
     Vector3 collisionPoint = vec3_add(vec3_mult(ray->direction, closestHit.distance), ray->origin);
     Material material = closestHit.surface->material;
     if (material.reflectivity > 0.0 && depth > 0) {
@@ -77,24 +75,25 @@ static Color ray_traceRecursive(const Ray *ray, const Scene *scene, size_t depth
             reflectedRay = ray_addNoise(&reflectedRay, material.reflectionNoise);
         }
         Color reflectionColor = ray_traceRecursive(&reflectedRay, scene, depth - 1);
-        closestHit.color = color_blend(reflectionColor, material.reflectivity, closestHit.color);
+        resultColor = color_blend(reflectionColor, material.reflectivity, resultColor);
     }
     ShadingResult shadingResult = ray_shadeAtPoint(ray, scene, closestHit.surface, collisionPoint);    
-    closestHit.color = getHighlightedColor(closestHit.color, shadingResult, scene->ambientCoefficient);
-    closestHit.color = color_mult(closestHit.color, (MAX_VISIBLE_DISTANCE - closestHit.distance) / MAX_VISIBLE_DISTANCE);
-    return closestHit.color;
+    resultColor = getHighlightedColor(resultColor, shadingResult, scene->ambientCoefficient);
+    resultColor = color_mult(resultColor, (MAX_VISIBLE_DISTANCE - closestHit.distance) / MAX_VISIBLE_DISTANCE);
+    return resultColor;
 }
 
 static TracingResult ray_traceOnce(const Ray *ray, const Scene *scene) {
     TracingResult closestHit;
     TracingResult currentHit;
-    closestHit.hit = 0;
-    closestHit.color = scene->backgroundColor;
+    int hit;
+    closestHit.surface = NULL;
     closestHit.distance = 1.0 / 0.0; // infinity
     for (size_t i = 0; i < scene->surfaces.count; i++) {
         Surface *surface = ARRAY_GET(&scene->surfaces, i);
-        currentHit = ray_checkIntersection(ray, surface);
-        if (currentHit.hit && currentHit.distance < closestHit.distance && currentHit.distance >= EPSILON) {
+        hit = ray_checkIntersection(ray, surface, &currentHit.distance);
+        if (hit && currentHit.distance < closestHit.distance && currentHit.distance >= EPSILON) {
+            currentHit.surface = surface;
             closestHit = currentHit;
         }
     }
@@ -118,7 +117,7 @@ static ShadingResult ray_shadeAtPoint(const Ray *ray, const Scene *scene, const 
         newRay.direction = vec3_negate(lightDirection);
         lightDistance = vec3_length(vec3_sub(light->position, point));
         shadowTracingResult = ray_traceOnce(&newRay, scene);
-        if (!shadowTracingResult.hit || shadowTracingResult.distance > lightDistance) {
+        if (shadowTracingResult.surface == NULL || shadowTracingResult.distance > lightDistance) {
             Vector3 normal = surface_getNormalAtPoint(surface, point);
             shadingResult.diffused += light_getDiffusedHighlight(light, lightDirection, normal);
             shadingResult.specular += light_getSpecularHighlight(light, lightDirection,
@@ -148,132 +147,97 @@ static Ray ray_reflect(const Ray *ray, const Surface *surface, Vector3 point) {
     return ray_make(point, RI);
 }
 
-static TracingResult ray_checkIntersection(const Ray *ray, const Surface *surface) {
-    TracingResult result;
-    result.hit = 0;
+static int ray_checkIntersection(const Ray *ray, const Surface *surface, double *distance) {
     switch (surface->type) {
         case GTSphere:
-            result = ray_checkSphereIntersection_2(ray, &surface->geometry.sphere);
-            result.surface = surface;
-            result.color = surface->material.color;
+            return ray_checkSphereIntersection(ray, &surface->geometry.sphere, distance);
             break;
         case GTTriangle:
-            result = ray_checkTriangleIntersectionWithCulling(ray, &surface->geometry.triangle);
-            result.surface = surface;
-            result.color = surface->material.color;
+            return ray_checkTriangleIntersection(ray, &surface->geometry.triangle, distance);
             break;
         default:
             break;
     }
-    return result;
+    return 0;
 }
 
 // http://www.cs.unc.edu/~rademach/xroads-RT/RTarticle.html
-static TracingResult ray_checkSphereIntersection_1(const Ray *ray, const Sphere *s) {
-    TracingResult result;
-    result.hit = 0;
-    Vector3 EO = vec3_sub(s->center, ray->origin);
-    double v = vec3_dot(EO, ray->direction);
-    if (v < 0) {
-        return result;
-    }
-    double r = s->radius;
-    double disc = SQUARE(r) - (vec3_dot(EO, EO) - SQUARE(v));
-    if (disc < 0.0) {
-        return result;
-    }
-    double d = sqrt(disc);
-    result.distance = MIN(v - d, v + d);
-    result.hit = 1;
-    return result;
-}
+//static TracingResult ray_checkSphereIntersection_1(const Ray *ray, const Sphere *s) {
+//    TracingResult result;
+//    result.hit = 0;
+//    Vector3 EO = vec3_sub(s->center, ray->origin);
+//    double v = vec3_dot(EO, ray->direction);
+//    if (v < 0) {
+//        return result;
+//    }
+//    double r = s->radius;
+//    double disc = SQUARE(r) - (vec3_dot(EO, EO) - SQUARE(v));
+//    if (disc < 0.0) {
+//        return result;
+//    }
+//    double d = sqrt(disc);
+//    result.distance = MIN(v - d, v + d);
+//    result.hit = 1;
+//    return result;
+//}
 
-// http://www.cs.princeton.edu/courses/archive/fall00/cs426/lectures/raycast/sld013.htm
-static TracingResult ray_checkSphereIntersection_2(const Ray *ray, const Sphere *s) {
-    TracingResult result;
-    result.hit = 0;
-    Vector3 O = s->center;
-    Vector3 P_0 = ray->origin;
-    Vector3 V = ray->direction;
-    Vector3 L;
-    VEC3_SUB(L, O, P_0);
-    double t_ca = VEC3_DOT(L, V);
-    if (t_ca < 0) {
-        return result;
+// http://stackoverflow.com/questions/14074643/why-does-raytracer-render-spheres-as-ovals
+static int ray_checkSphereIntersection(const Ray *ray, const Sphere *sphere, double *distance) {
+    double a = vec3_dot(ray->direction, ray->direction);
+    Vector3 ro_sc = vec3_sub(ray->origin, sphere->center);
+    double b = 2.0 * vec3_dot(ray->direction, ro_sc);
+    double c = vec3_dot(ro_sc, ro_sc) - SQUARE(sphere->radius);
+    double disc = SQUARE(b) - 4 * a * c;
+    if (disc < 0) {
+        return 0;
+    }    
+    double distSqrt = sqrt(disc);
+    double q = b < 0.0 ? (-b - distSqrt) / 2.0 : (-b + distSqrt) / 2.0;
+    double t0 = q / a;
+    double t1 = c / q;
+    if (t0 > t1) {
+        double swap = t0;
+        t0 = t1;
+        t1 = swap;
     }
-    double d2 = VEC3_DOT(L, L) - SQUARE(t_ca);
-    double r2 = SQUARE(s->radius);
-    if (d2 > r2) {
-        return result;
+    if (t1 < 0) {
+        return 0;
+    } else if(t0 < 0) {
+        *distance = t1;
+    } else {
+        *distance = t0;
     }
-    double t_hc = sqrt(r2 - d2);
-    double t1 = fabs(t_ca - t_hc);
-    double t2 = fabs(t_ca + t_hc);
-    result.distance = MIN(t1, t2);
-    result.hit = 1;
-    return result;
+    return 1;
 }
 
 // http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf
-static TracingResult ray_checkTriangleIntersectionWithCulling(const Ray *ray, const Triangle *t) {
+static int ray_checkTriangleIntersection(const Ray *ray, const Triangle *t, double *distance) {
     Vector3 pvec, tvec, qvec;
-    TracingResult result;
-    result.hit = 0;
     VEC3_CROSS(pvec, ray->direction, t->edges[0]);
     double det = VEC3_DOT(t->edges[1], pvec);
 #define EPSILON 0.000001
     if (det < EPSILON) {
-        return result;
+        return 0;
     }
 #undef EPSILON
     VEC3_SUB(tvec, ray->origin, t->a);
     double u = VEC3_DOT(tvec, pvec);
     if (u < 0.0 || u > det) {
-        return result;
+        return 0;
     }
     VEC3_CROSS(qvec, tvec, t->edges[1]);
     double v = VEC3_DOT(ray->direction, qvec);
     if (v < 0.0 || u + v > det) {
-        return result;
+        return 0;
     }
     double d = VEC3_DOT(t->edges[0], qvec);
     double inv_det = 1.0 / det;
     d *= inv_det;
 //    u *= inv_det; // may be useful in the future to get texture coordinates
 //    v *= inv_det;
-    result.distance = d;
-    result.hit = 1;
-    return result;
+    *distance = d;
+    return 1;
 }
-
-//static TracingResult ray_checkTriangleIntersectionNoCulling(const Ray *ray, const Triangle *t) {
-//    TracingResult result;
-//    result.hit = 0;
-//    Vector3 pvec, tvec, qvec;
-//    VEC3_CROSS(pvec, ray.direction, t->edges[1]);
-//    double det = VEC3_DOT(t->edges[0], pvec);
-//#define EPSILON 0.000001
-//    if (det > -EPSILON && det < EPSILON) {
-//        return result;
-//    }
-//#undef EPSILON
-//    double inv_det = 1.0 / det;
-//    VEC3_SUB(tvec, ray.origin, t->a);
-//    double u = VEC3_DOT(tvec, pvec) * inv_det;
-//    if (u < 0.0 || u  > 1.0) {
-//        return result;
-//    }
-//    VEC3_CROSS(qvec, tvec, t->edges[0]);
-//    double v = VEC3_DOT(ray.direction, qvec) * inv_det;
-//    if (v < 0.0 || u + v > 1.0) {
-//        return result;
-//    }
-//    double d = VEC3_DOT(t->edges[1], qvec) * inv_det;
-//    result.distance = d;
-//    result.hit = 1;
-//    return result;
-//}
-
 
 Color getHighlightedColor(Color color, ShadingResult highlight, double ambientCoef) {
     double diffusedCoef = 1.0 - ambientCoef;

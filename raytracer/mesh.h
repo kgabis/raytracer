@@ -11,6 +11,12 @@
 
 #include "array.h"
 #include "material.h"
+#include "geometry.h"
+
+typedef struct {
+    Array faces;
+    Sphere boundingVolume;
+} Mesh;
 
 Array mesh_load(const char *filename, Material material);
 
