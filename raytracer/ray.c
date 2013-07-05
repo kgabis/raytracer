@@ -35,7 +35,7 @@ static Ray ray_reflect(Ray ray, const Surface *surface, Vector3 point);
 static Color ray_traceRecursive(Ray ray, const Scene *scene, size_t depth);
 static TracingResult ray_traceOnce(Ray ray, const Scene *scene);
 static TracingResult ray_checkIntersection(Ray ray, const Surface *surface);
-//static TracingResult ray_checkSphereIntersection_1(Ray ray, const Sphere *sphere);
+static TracingResult ray_checkSphereIntersection_1(Ray ray, const Sphere *sphere);
 static TracingResult ray_checkSphereIntersection_2(Ray ray, const Sphere *sphere);
 static TracingResult ray_checkTriangleIntersectionWithCulling(Ray ray, const Triangle *triangle);
 //static TracingResult ray_checkTriangleIntersectionNoCulling(Ray ray, const Triangle *triangle);
@@ -44,16 +44,15 @@ static ShadingResult ray_shadeAtPoint(Ray ray, const Scene *scene, const Surface
 static Color getHighlightedColor(Color color, ShadingResult highlight, double ambientCoef);
 
 Ray ray_make(Vector3 origin, Vector3 direction) {
-    Ray r;
-    r.origin = origin, r.direction = direction;
+    Ray r = { .origin = origin, .direction = direction};
     return r;
 }
 
 Ray ray_makeForPixel(const Camera *c, size_t x, size_t y) {
     double dy = 1.0;
     double dx = 1.0;
-    double py = (- c->height / 2.0) + dy * (y + 0.5);
-    double px = (- c->width / 2.0) + dx * (x + 0.5);
+    double py = (- c->height / 2.0) + dy * ((double)y + 0.5);
+    double px = (- c->width / 2.0) + dx * ((double)x + 0.5);
     Vector3 p = vec3_add3(c->planeCenter,
                           vec3_mult(c->planeDirectionX, px),
                           vec3_mult(c->planeDirectionY, py));
@@ -169,24 +168,24 @@ static TracingResult ray_checkIntersection(Ray ray, const Surface *surface) {
 }
 
 // http://www.cs.unc.edu/~rademach/xroads-RT/RTarticle.html
-//static TracingResult ray_checkSphereIntersection_1(Ray ray, const Sphere *s) {
-//    TracingResult result;
-//    result.hit = 0;
-//    Vector3 EO = vec3_sub(s->center, ray.origin);
-//    double v = vec3_dot(EO, ray.direction);
-//    if (v < 0) {
-//        return result;
-//    }
-//    double r = s->radius;
-//    double disc = SQUARE(r) - (vec3_dot(EO, EO) - SQUARE(v));
-//    if (disc < 0.0) {
-//        return result;
-//    }
-//    double d = sqrt(disc);
-//    result.distance = MIN(v - d, v + d);
-//    result.hit = 1;
-//    return result;
-//}
+static TracingResult ray_checkSphereIntersection_1(Ray ray, const Sphere *s) {
+    TracingResult result;
+    result.hit = 0;
+    Vector3 EO = vec3_sub(s->center, ray.origin);
+    double v = vec3_dot(EO, ray.direction);
+    if (v < 0) {
+        return result;
+    }
+    double r = s->radius;
+    double disc = SQUARE(r) - (vec3_dot(EO, EO) - SQUARE(v));
+    if (disc < 0.0) {
+        return result;
+    }
+    double d = sqrt(disc);
+    result.distance = MIN(v - d, v + d);
+    result.hit = 1;
+    return result;
+}
 
 // http://www.cs.princeton.edu/courses/archive/fall00/cs426/lectures/raycast/sld013.htm
 static TracingResult ray_checkSphereIntersection_2(Ray ray, const Sphere *s) {

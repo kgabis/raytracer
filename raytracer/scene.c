@@ -52,10 +52,10 @@ void scene_loadSpheresDemo(Scene *scene) {
     vs[5] = vec3_make(-75, 110, 150);
     vs[6] = vec3_make(75, 110, 0);
     vs[7] = vec3_make(75, 110, 150);
-    vs[8] = vec3_make(-75, -40, -70);
-    vs[9] = vec3_make(75, -40, -70);
-    vs[10] = vec3_make(75, 110, -70);
-    vs[11] = vec3_make(-75, 110, -70);
+    vs[8] = vec3_make(-75, -40, -700);
+    vs[9] = vec3_make(75, -40, -700);
+    vs[10] = vec3_make(75, 110, -700);
+    vs[11] = vec3_make(-75, 110, -700);
     //Floor
     triangles[0] = surface_initTriangle(vs[2], vs[1], vs[0], floorMaterial);
     triangles[1] = surface_initTriangle(vs[2], vs[3], vs[1], floorMaterial);

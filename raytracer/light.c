@@ -14,9 +14,7 @@
 #define KS_CONST 1.0
 
 Light light_make(Vector3 position, double intensity) {
-    Light l;
-    l.position = position;
-    l.intensity = intensity;
+    Light l = { .position = position, .intensity = intensity };
     return l;
 }
 

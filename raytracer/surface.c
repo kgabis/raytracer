@@ -10,18 +10,16 @@
 #include "surface.h"
 
 Surface surface_initSphere(Vector3 position, double radius, Material material) {
-    Surface s;
-    s.type = GTSphere;
-    s.geometry.sphere = sphere_make(position, radius);
-    s.material = material;
+    Surface s = { .type = GTSphere,
+                  .geometry.sphere = sphere_make(position, radius),
+                  .material = material };
     return s;
 }
 
 Surface surface_initTriangle(Vector3 a, Vector3 b, Vector3 c, Material material) {
-    Surface t;
-    t.type = GTTriangle;
-    t.geometry.triangle = triangle_make(a, b, c);
-    t.material = material;
+    Surface t = { .type = GTTriangle,
+                  .geometry.triangle = triangle_make(a, b, c),
+                  .material = material };
     return t;
 }
 

@@ -18,6 +18,7 @@ void raytracer_init(Raytracer *rt, size_t resolutionX, size_t resolutionY) {
 
 void raytracer_render(Raytracer *rt, DrawFunction draw, void *data) {
     camera_setup(&rt->scene.camera);
+    rt->scene.camera.position.z -= 5;
     for (size_t x = 0; x < rt->resolutionX; x++) {
         for (size_t y = 0; y < rt->resolutionY; y++) {
             Ray ray = ray_makeForPixel(&rt->scene.camera, x, y);
