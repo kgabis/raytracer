@@ -84,17 +84,15 @@ static Color ray_traceRecursive(const Ray *ray, const Scene *scene, size_t depth
 }
 
 static TracingResult ray_traceOnce(const Ray *ray, const Scene *scene) {
-    TracingResult closestHit;
-    TracingResult currentHit;
-    int hit;
-    closestHit.surface = NULL;
-    closestHit.distance = 1.0 / 0.0; // infinity
+    TracingResult closestHit = { .surface = NULL, .distance = 1.0 / 0.0 };
+    double distance = 1.0 / 0.0f;
+    int hit = 0;
     for (size_t i = 0; i < scene->surfaces.count; i++) {
         Surface *surface = ARRAY_GET(&scene->surfaces, i);
-        hit = ray_checkIntersection(ray, surface, &currentHit.distance);
-        if (hit && currentHit.distance < closestHit.distance && currentHit.distance >= EPSILON) {
-            currentHit.surface = surface;
-            closestHit = currentHit;
+        hit = ray_checkIntersection(ray, surface, &distance);
+        if (hit && distance < closestHit.distance && distance > EPSILON) {
+            closestHit.distance = distance;
+            closestHit.surface = surface;
         }
     }
     return closestHit;
@@ -130,7 +128,7 @@ static ShadingResult ray_shadeAtPoint(const Ray *ray, const Scene *scene, const 
 
 static Ray ray_addNoise(const Ray *ray, double epsilon) {
     double r = (((double)rand()/RAND_MAX) * 2 * epsilon) - epsilon;
-    Ray newRay;
+    Ray newRay = *ray;
     newRay.direction.x += r;
     r = (((double)rand()/RAND_MAX) * 2 * epsilon) - epsilon;
     newRay.direction.y += r;
@@ -141,9 +139,9 @@ static Ray ray_addNoise(const Ray *ray, double epsilon) {
 }
 
 static Ray ray_reflect(const Ray *ray, const Surface *surface, Vector3 point) {
-    Vector3 N = surface_getNormalAtPoint(surface, point);
-    double c1 = - vec3_dot(N, ray->direction);
-    Vector3 RI = vec3_add(ray->direction, vec3_mult(N, 2 * c1));
+    Vector3 surfaceNormal = surface_getNormalAtPoint(surface, point);
+    double c1 = - vec3_dot(surfaceNormal, ray->direction);
+    Vector3 RI = vec3_add(ray->direction, vec3_mult(surfaceNormal, 2 * c1));
     return ray_make(point, RI);
 }
 

@@ -5,6 +5,15 @@
 //  Created by Krzysztof Gabis on 29.03.2013.
 //  Copyright (c) 2013 Krzysztof Gabis. All rights reserved.
 //
+// 17.08.2013 15:10 - O3 
+//Teapot:
+//Seconds per frame: 97.572769
+// 17.08.2013 15:37 - O3 OMP 
+//Teapot:
+//Seconds per frame: 54.484337
+//Seconds per frame: 54.581848
+//
+
 #include <stdio.h>
 
 #include "raytracer.h"
@@ -18,9 +27,9 @@ void raytracer_init(Raytracer *rt, size_t resolutionX, size_t resolutionY) {
 
 void raytracer_render(Raytracer *rt, DrawFunction draw, void *data) {
     camera_setup(&rt->scene.camera);
-    rt->scene.camera.position.z -= 5;
-    for (size_t x = 0; x < rt->resolutionX; x++) {
-        for (size_t y = 0; y < rt->resolutionY; y++) {
+    #pragma omp parallel for
+    for (int x = 0; x < rt->resolutionX; x++) {
+        for (int y = 0; y < rt->resolutionY; y++) {
             Ray ray = ray_makeForPixel(&rt->scene.camera, x, y);
             Color color = ray_trace(&ray, &rt->scene);
             draw(data, color, x, y);

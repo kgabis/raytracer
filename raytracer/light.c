@@ -34,10 +34,10 @@ double light_getSpecularHighlight(const Light *light, Vector3 lightDirection, Ve
     double highlight = VEC3_DOT(normal, lightDirection);
     Vector3 V = vec3_negate(rayDirection);
     Vector3 R = vec3_sub(lightDirection, vec3_mult(normal, highlight * 2.0));
-    float dot = vec3_dot(V, R);
+    double dot = vec3_dot(V, R);
     if (dot < 0) {
         return 0;
     }
-    float spec = pow(dot, specularity) * KS_CONST * light->intensity;
+    double spec = pow(dot, specularity) * KS_CONST * light->intensity;
     return spec;
 }
